@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>БУНКЕР • Онлайн Гра</title>
+    <title>БУНКЕР • Онлайн Гра v2</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;500;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -21,6 +21,8 @@
             --accent: #ffd23f;
             --bunker-green: #3bba5c;
             --metal: #5a6473;
+            --purple: #9c27b0;
+            --blue: #2196f3;
         }
 
         body {
@@ -41,8 +43,7 @@
             bottom: 0;
             background: 
                 repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, transparent 1px, transparent 2px, rgba(0,0,0,0.1) 3px),
-                radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 210, 63, 0.02) 0%, transparent 50%);
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.03) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
@@ -63,36 +64,13 @@
             position: relative;
         }
 
-        .header::after {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 3px;
-            background: var(--accent);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: translateX(-50%) scaleX(1); }
-            50% { opacity: 0.5; transform: translateX(-50%) scaleX(0.8); }
-        }
-
         h1 {
             font-family: 'Bebas Neue', cursive;
             font-size: 5rem;
             letter-spacing: 8px;
             color: var(--primary);
-            text-shadow: 4px 4px 0 rgba(0,0,0,0.5), 0 0 30px rgba(255, 107, 53, 0.3);
+            text-shadow: 4px 4px 0 rgba(0,0,0,0.5);
             margin-bottom: 10px;
-            animation: slideDown 0.8s ease-out;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-50px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .subtitle {
@@ -122,21 +100,8 @@
             border-radius: 12px;
             padding: 30px;
             margin: 20px 0;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
             backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            opacity: 0.7;
         }
 
         .btn {
@@ -153,35 +118,11 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             box-shadow: 0 5px 20px rgba(255, 107, 53, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn:hover::before {
-            width: 300px;
-            height: 300px;
         }
 
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 30px rgba(255, 107, 53, 0.5);
-        }
-
-        .btn:active {
-            transform: translateY(0);
         }
 
         .btn:disabled {
@@ -191,20 +132,22 @@
 
         .btn-secondary {
             background: linear-gradient(135deg, var(--metal), #6b7784);
-            box-shadow: 0 5px 20px rgba(90, 100, 115, 0.3);
         }
 
         .btn-danger {
             background: linear-gradient(135deg, var(--danger), #e57373);
-            box-shadow: 0 5px 20px rgba(211, 47, 47, 0.3);
         }
 
         .btn-success {
             background: linear-gradient(135deg, var(--bunker-green), #4caf50);
-            box-shadow: 0 5px 20px rgba(59, 186, 92, 0.3);
         }
 
-        input[type="text"], input[type="number"] {
+        .btn-small {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], input[type="number"], input[type="password"], select {
             width: 100%;
             padding: 15px 20px;
             font-size: 1.1rem;
@@ -214,13 +157,19 @@
             border-radius: 8px;
             color: var(--light);
             margin: 10px 0;
-            transition: all 0.3s ease;
         }
 
-        input[type="text"]:focus, input[type="number"]:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
         }
 
         .room-code {
@@ -234,37 +183,7 @@
             letter-spacing: 8px;
             margin: 20px 0;
             border: 2px solid var(--accent);
-            box-shadow: 0 0 30px rgba(255, 210, 63, 0.2);
             font-weight: bold;
-        }
-
-        .share-link {
-            background: rgba(13, 13, 13, 0.8);
-            padding: 15px;
-            border-radius: 8px;
-            border: 2px solid var(--bunker-green);
-            margin: 15px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .share-link input {
-            flex: 1;
-            margin: 0;
-            background: transparent;
-            border: none;
-            color: var(--bunker-green);
-            font-size: 0.95rem;
-        }
-
-        .share-link input:focus {
-            box-shadow: none;
-        }
-
-        .copy-btn {
-            padding: 10px 20px;
-            font-size: 0.9rem;
         }
 
         .player-list {
@@ -279,15 +198,10 @@
             padding: 15px;
             border-radius: 8px;
             border-left: 4px solid var(--bunker-green);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
         }
 
-        .player-item:hover {
-            transform: translateX(5px);
-            background: rgba(13, 13, 13, 0.8);
+        .player-item.host::before {
+            content: '👑 ';
         }
 
         .player-item.eliminated {
@@ -296,54 +210,130 @@
             text-decoration: line-through;
         }
 
-        .player-item.host::before {
-            content: '👑';
-            font-size: 1.2rem;
-        }
-
-        .character-card {
+        .character-section {
             background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(42, 26, 10, 0.95));
             border: 2px solid var(--primary);
             border-radius: 12px;
             padding: 25px;
             margin: 15px 0;
-            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.2);
+        }
+
+        .profession-header {
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
         }
 
         .characteristic {
-            display: grid;
-            grid-template-columns: 150px 1fr;
-            gap: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin: 12px 0;
             padding: 12px;
             background: rgba(13, 13, 13, 0.4);
             border-radius: 6px;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .characteristic:hover {
-            background: rgba(13, 13, 13, 0.6);
-            transform: translateX(5px);
         }
 
         .characteristic-label {
             color: var(--accent);
             font-weight: 500;
-            font-size: 0.95rem;
-            letter-spacing: 1px;
         }
 
         .characteristic-value {
             color: var(--light);
-            font-size: 1.05rem;
-            font-weight: 300;
+            flex: 1;
+            margin: 0 15px;
         }
 
-        .hidden {
+        .hidden-value {
             filter: blur(8px);
             user-select: none;
-            cursor: not-allowed;
+        }
+
+        .revealed-to-all {
+            color: var(--bunker-green);
+            font-weight: 500;
+        }
+
+        .card-item {
+            background: rgba(13, 13, 13, 0.7);
+            border: 2px solid var(--purple);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .card-item.action-card {
+            border-color: var(--blue);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        .card-uses {
+            background: rgba(255, 107, 53, 0.3);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--light);
+        }
+
+        .card-description {
+            color: var(--light);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .bunker-conditions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .condition-item {
+            background: rgba(13, 13, 13, 0.6);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .condition-item.positive {
+            border: 2px solid var(--bunker-green);
+        }
+
+        .condition-item.negative {
+            border: 2px solid var(--danger);
+        }
+
+        .condition-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .condition-title {
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .condition-description {
+            font-size: 0.9rem;
+            color: var(--light);
         }
 
         .scenario-card {
@@ -352,81 +342,22 @@
             padding: 25px;
             border-radius: 12px;
             margin: 20px 0;
-            text-align: center;
         }
 
         .scenario-title {
             font-family: 'Bebas Neue', cursive;
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: var(--danger);
             margin-bottom: 15px;
             letter-spacing: 3px;
+            text-align: center;
         }
 
         .scenario-desc {
             font-size: 1.1rem;
-            line-height: 1.6;
+            line-height: 1.8;
             color: var(--light);
-        }
-
-        .bunker-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .bunker-stat {
-            background: rgba(13, 13, 13, 0.6);
-            padding: 20px;
-            border-radius: 8px;
             text-align: center;
-            border-top: 3px solid var(--bunker-green);
-        }
-
-        .bunker-stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--bunker-green);
-            font-family: 'Bebas Neue', cursive;
-        }
-
-        .bunker-stat-label {
-            font-size: 0.9rem;
-            color: var(--metal);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 5px;
-        }
-
-        .timer {
-            font-family: 'Courier Prime', monospace;
-            font-size: 3rem;
-            color: var(--accent);
-            text-align: center;
-            padding: 20px;
-            background: rgba(13, 13, 13, 0.8);
-            border-radius: 12px;
-            margin: 20px 0;
-            border: 2px solid var(--accent);
-            font-weight: bold;
-            letter-spacing: 5px;
-        }
-
-        .timer.warning {
-            color: var(--primary);
-            border-color: var(--primary);
-            animation: timerPulse 1s ease-in-out infinite;
-        }
-
-        .timer.critical {
-            color: var(--danger);
-            border-color: var(--danger);
-        }
-
-        @keyframes timerPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
         }
 
         .chat-container {
@@ -454,12 +385,6 @@
             background: rgba(26, 26, 26, 0.6);
             border-radius: 6px;
             border-left: 3px solid var(--primary);
-            animation: slideInLeft 0.3s ease-out;
-        }
-
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
         }
 
         .chat-message.system {
@@ -473,19 +398,93 @@
             margin-bottom: 5px;
         }
 
-        .chat-message-text {
-            color: var(--light);
-            font-weight: 300;
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
         }
 
-        .chat-input-container {
+        .overlay.show {
             display: flex;
-            gap: 10px;
         }
 
-        .chat-input {
-            flex: 1;
-            margin: 0;
+        .modal {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.98), rgba(42, 26, 10, 0.98));
+            border: 4px solid var(--danger);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3rem;
+            color: var(--danger);
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .modal-content {
+            color: var(--light);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .eliminated-player {
+            background: rgba(211, 47, 47, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid var(--danger);
+        }
+
+        .survivors-list {
+            background: rgba(59, 186, 92, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid var(--bunker-green);
+        }
+
+        .timer {
+            font-family: 'Courier Prime', monospace;
+            font-size: 3rem;
+            color: var(--accent);
+            text-align: center;
+            padding: 20px;
+            background: rgba(13, 13, 13, 0.8);
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid var(--accent);
+            font-weight: bold;
+        }
+
+        .timer.warning {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .timer.critical {
+            color: var(--danger);
+            border-color: var(--danger);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .vote-container {
@@ -508,83 +507,11 @@
         .vote-option:hover {
             border-color: var(--primary);
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
         }
 
         .vote-option.selected {
             border-color: var(--bunker-green);
             background: rgba(59, 186, 92, 0.2);
-        }
-
-        .vote-option.eliminated {
-            border-color: var(--danger);
-            background: rgba(211, 47, 47, 0.2);
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-
-        .event-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: linear-gradient(135deg, rgba(211, 47, 47, 0.98), rgba(255, 107, 53, 0.98));
-            border: 4px solid var(--accent);
-            border-radius: 16px;
-            padding: 40px;
-            max-width: 600px;
-            z-index: 1000;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        .event-popup.show {
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .event-title {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 2.5rem;
-            color: white;
-            text-align: center;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            letter-spacing: 3px;
-        }
-
-        .event-description {
-            font-size: 1.2rem;
-            color: white;
-            text-align: center;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 999;
-            display: none;
-        }
-
-        .overlay.show {
-            display: block;
-        }
-
-        .phase-indicator {
-            text-align: center;
-            font-family: 'Bebas Neue', cursive;
-            font-size: 1.8rem;
-            color: var(--accent);
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(13, 13, 13, 0.6);
-            border-radius: 8px;
-            letter-spacing: 3px;
         }
 
         .grid-2 {
@@ -593,76 +520,10 @@
             gap: 20px;
         }
 
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-
-        .status-message {
-            text-align: center;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .status-message.info {
-            background: rgba(59, 186, 92, 0.2);
-            border: 2px solid var(--bunker-green);
-            color: var(--bunker-green);
-        }
-
-        .status-message.warning {
-            background: rgba(255, 210, 63, 0.2);
-            border: 2px solid var(--accent);
-            color: var(--accent);
-        }
-
-        .vote-result {
-            background: rgba(211, 47, 47, 0.3);
-            border: 2px solid var(--danger);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .vote-result-text {
-            font-size: 1.5rem;
-            color: var(--danger);
-            font-weight: 500;
-            margin-bottom: 10px;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--accent);
-            font-size: 1.2rem;
-        }
-
         @media (max-width: 768px) {
-            h1 {
-                font-size: 3rem;
-            }
-            
-            .room-code {
-                font-size: 1.8rem;
-                letter-spacing: 4px;
-            }
-            
-            .timer {
-                font-size: 2rem;
-            }
-            
-            .characteristic {
-                grid-template-columns: 1fr;
-                gap: 5px;
-            }
+            h1 { font-size: 3rem; }
+            .room-code { font-size: 1.8rem; }
+            .timer { font-size: 2rem; }
         }
     </style>
 </head>
@@ -679,65 +540,30 @@
                 <h2 style="text-align: center; font-size: 2rem; margin-bottom: 30px; color: var(--primary);">Головне меню</h2>
                 <div class="action-buttons">
                     <button class="btn" onclick="showCreateRoom()">Створити кімнату</button>
-                    <button class="btn btn-secondary" onclick="showJoinRoom()">Приєднатися до кімнати</button>
-                    <button class="btn btn-secondary" onclick="showAISettings()">⚙️ Налаштування AI</button>
-                </div>
-                
-                <div style="margin-top: 40px; padding: 20px; background: rgba(13, 13, 13, 0.4); border-radius: 8px;">
-                    <h3 style="color: var(--accent); margin-bottom: 15px;">Як грати:</h3>
-                    <ul style="line-height: 1.8; color: var(--light); font-weight: 300; list-style-position: inside;">
-                        <li>Створи кімнату та поділись посиланням з друзями</li>
-                        <li>Кожен гравець отримає випадковий персонаж</li>
-                        <li>Переконай інших, чому саме ти маєш потрапити в бункер</li>
-                        <li>В бункері обмежена кількість місць</li>
-                        <li>Голосуйте за виключення найменш корисних гравців</li>
-                        <li>Під час гри можуть трапитися випадкові події</li>
-                    </ul>
+                    <button class="btn btn-secondary" onclick="showJoinRoom()">Приєднатися</button>
+                    <button class="btn btn-secondary" onclick="showAISettings()">⚙️ AI</button>
                 </div>
                 
                 <div id="aiStatusIndicator" style="margin-top: 20px; padding: 15px; background: rgba(255, 210, 63, 0.2); border: 2px solid var(--accent); border-radius: 8px; text-align: center;">
-                    <div style="color: var(--accent); font-weight: 500;">AI не налаштовано</div>
-                    <div style="color: var(--light); font-size: 0.9rem; margin-top: 5px;">Без AI ключа - базові тексти замість генерації</div>
+                    <div style="color: var(--accent);">AI не налаштовано</div>
                 </div>
             </div>
         </div>
 
-        <!-- Екран налаштувань AI -->
+        <!-- Налаштування AI -->
         <div id="aiSettingsScreen" class="screen">
             <div class="card">
                 <h2 style="text-align: center; font-size: 2rem; margin-bottom: 30px; color: var(--primary);">Налаштування AI</h2>
                 
-                <div style="margin-bottom: 30px; padding: 20px; background: rgba(59, 186, 92, 0.1); border: 2px solid var(--bunker-green); border-radius: 8px;">
-                    <h3 style="color: var(--bunker-green); margin-bottom: 15px;">🤖 Навіщо потрібен AI?</h3>
-                    <p style="color: var(--light); line-height: 1.6; margin-bottom: 10px;">
-                        AI генерує унікальний контент для кожної партії:
-                    </p>
-                    <ul style="color: var(--light); line-height: 1.8; list-style-position: inside;">
-                        <li>Драматичні сцени виключення гравців</li>
-                        <li>Випадкові події, прив'язані до сценарію</li>
-                        <li>Персоналізовану кінцівку на основі виживших</li>
-                    </ul>
-                    <p style="color: var(--accent); margin-top: 15px; font-size: 0.95rem;">
-                        💡 Без AI гра працюватиме з базовими заготовленими текстами
-                    </p>
-                </div>
+                <select id="aiProviderSelect" onchange="updateAIProvider()">
+                    <option value="none">Без AI</option>
+                    <option value="gemini">Google Gemini (безкоштовно)</option>
+                    <option value="openai">OpenAI ChatGPT</option>
+                </select>
 
-                <div style="margin: 20px 0;">
-                    <label style="display: block; margin-bottom: 10px; color: var(--accent); font-weight: 500;">Оберіть AI провайдера:</label>
-                    <select id="aiProviderSelect" onchange="window.updateAIProvider()" style="width: 100%; padding: 15px; font-size: 1.1rem; background: rgba(13, 13, 13, 0.8); border: 2px solid var(--metal); border-radius: 8px; color: var(--light); font-family: 'Oswald', sans-serif;">
-                        <option value="none">Без AI (базові тексти)</option>
-                        <option value="gemini">Google Gemini (безкоштовно)</option>
-                        <option value="openai">OpenAI ChatGPT</option>
-                    </select>
-                </div>
-
-                <div id="aiKeySection" style="display: none; margin: 20px 0;">
-                    <label style="display: block; margin-bottom: 10px; color: var(--accent); font-weight: 500;">API Ключ:</label>
-                    <input type="password" id="aiKeyInput" placeholder="Вставте ваш API ключ" style="font-family: 'Courier Prime', monospace;">
-                    
-                    <div id="aiInstructions" style="margin-top: 15px; padding: 15px; background: rgba(13, 13, 13, 0.4); border-radius: 8px; font-size: 0.9rem; color: var(--light); line-height: 1.6;">
-                        <!-- Інструкції будуть тут -->
-                    </div>
+                <div id="aiKeySection" style="display: none;">
+                    <input type="password" id="aiKeyInput" placeholder="API ключ">
+                    <div id="aiInstructions" style="margin-top: 15px; padding: 15px; background: rgba(13, 13, 13, 0.4); border-radius: 8px; font-size: 0.9rem;"></div>
                 </div>
 
                 <div class="action-buttons">
@@ -747,19 +573,13 @@
             </div>
         </div>
 
-        <!-- Екран створення кімнати -->
+        <!-- Створення кімнати -->
         <div id="createRoomScreen" class="screen">
             <div class="card">
                 <h2 style="text-align: center; font-size: 2rem; margin-bottom: 30px; color: var(--primary);">Створити кімнату</h2>
-                <input type="text" id="hostNameInput" placeholder="Введіть ваше ім'я" maxlength="20">
-                <div style="margin: 20px 0;">
-                    <label style="display: block; margin-bottom: 10px; color: var(--accent);">Максимальна кількість гравців:</label>
-                    <input type="number" id="maxPlayersInput" min="4" max="8" value="6" style="width: 100%;">
-                </div>
-                <div style="margin: 20px 0;">
-                    <label style="display: block; margin-bottom: 10px; color: var(--accent);">Тривалість обговорення (хвилин):</label>
-                    <input type="number" id="discussionTimeInput" min="1" max="15" value="5" style="width: 100%;">
-                </div>
+                <input type="text" id="hostNameInput" placeholder="Ваше ім'я" maxlength="20">
+                <input type="number" id="maxPlayersInput" min="4" max="8" value="6" placeholder="Кількість гравців (4-8)">
+                <input type="number" id="discussionTimeInput" min="1" max="15" value="5" placeholder="Час обговорення (хвилин)">
                 <div class="action-buttons">
                     <button class="btn" onclick="createRoom()">Створити</button>
                     <button class="btn btn-secondary" onclick="showMenu()">Назад</button>
@@ -767,12 +587,12 @@
             </div>
         </div>
 
-        <!-- Екран приєднання до кімнати -->
+        <!-- Приєднання -->
         <div id="joinRoomScreen" class="screen">
             <div class="card">
-                <h2 style="text-align: center; font-size: 2rem; margin-bottom: 30px; color: var(--primary);">Приєднатися до кімнати</h2>
-                <input type="text" id="playerNameInput" placeholder="Введіть ваше ім'я" maxlength="20">
-                <input type="text" id="roomCodeInput" placeholder="Введіть код кімнати (4 символи)" maxlength="4" style="text-transform: uppercase;">
+                <h2 style="text-align: center; font-size: 2rem; margin-bottom: 30px; color: var(--primary);">Приєднатися</h2>
+                <input type="text" id="playerNameInput" placeholder="Ваше ім'я" maxlength="20">
+                <input type="text" id="roomCodeInput" placeholder="Код кімнати (4 символи)" maxlength="4" style="text-transform: uppercase;">
                 <div class="action-buttons">
                     <button class="btn" onclick="joinRoom()">Приєднатися</button>
                     <button class="btn btn-secondary" onclick="showMenu()">Назад</button>
@@ -780,62 +600,66 @@
             </div>
         </div>
 
-        <!-- Екран очікування (лобі) -->
+        <!-- Лобі -->
         <div id="lobbyScreen" class="screen">
             <div class="card">
                 <h2 style="text-align: center; font-size: 2rem; margin-bottom: 20px; color: var(--primary);">Кімната</h2>
                 <div class="room-code" id="roomCodeDisplay"></div>
                 
-                <div class="share-link">
-                    <input type="text" id="shareLinkInput" readonly>
-                    <button class="btn copy-btn" onclick="copyShareLink()">Копіювати</button>
-                </div>
-                
-                <div style="text-align: center; margin: 20px 0;">
-                    <div class="status-message info">
-                        <span id="playerCountDisplay"></span>
-                    </div>
+                <div style="background: rgba(13, 13, 13, 0.8); padding: 15px; border-radius: 8px; margin: 15px 0; display: flex; gap: 10px;">
+                    <input type="text" id="shareLinkInput" readonly style="flex: 1; margin: 0;">
+                    <button class="btn btn-small" onclick="copyLink()">Копіювати</button>
                 </div>
 
-                <h3 style="color: var(--accent); margin: 20px 0;">Гравці в кімнаті:</h3>
+                <div style="text-align: center; margin: 20px 0; padding: 15px; background: rgba(59, 186, 92, 0.2); border: 2px solid var(--bunker-green); border-radius: 8px;">
+                    <span id="playerCountDisplay" style="color: var(--bunker-green); font-weight: 500;"></span>
+                </div>
+
+                <h3 style="color: var(--accent); margin: 20px 0;">Гравці:</h3>
                 <div class="player-list" id="lobbyPlayerList"></div>
 
                 <div class="action-buttons" id="lobbyActions"></div>
             </div>
         </div>
 
-        <!-- Екран гри -->
+        <!-- Гра -->
         <div id="gameScreen" class="screen">
-            <div class="phase-indicator" id="phaseIndicator">Підготовка...</div>
+            <div style="text-align: center; font-size: 1.8rem; color: var(--accent); margin: 20px 0; padding: 15px; background: rgba(13, 13, 13, 0.6); border-radius: 8px;">
+                <span id="phaseIndicator">Обговорення</span>
+            </div>
             
             <div id="timerContainer" style="display: none;">
                 <div class="timer" id="gameTimer">05:00</div>
             </div>
 
             <div class="grid-2">
-                <!-- Інформація про сценарій -->
                 <div>
                     <div class="scenario-card" id="scenarioCard"></div>
-                    <div class="bunker-info" id="bunkerInfo"></div>
+                    <div class="bunker-conditions" id="bunkerConditions"></div>
                 </div>
 
-                <!-- Чат -->
                 <div>
-                    <h3 style="color: var(--accent); margin-bottom: 15px;">💬 Обговорення</h3>
+                    <h3 style="color: var(--accent); margin-bottom: 15px;">💬 Чат</h3>
                     <div class="chat-container">
                         <div class="chat-messages" id="chatMessages"></div>
-                        <div class="chat-input-container">
-                            <input type="text" id="chatInput" class="chat-input" placeholder="Напишіть повідомлення..." maxlength="200">
-                            <button class="btn" onclick="sendMessage()" style="padding: 15px 30px;">Надіслати</button>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="chatInput" placeholder="Повідомлення..." maxlength="200" style="flex: 1; margin: 0;">
+                            <button class="btn btn-small" onclick="sendMessage()">→</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Картка персонажа -->
+            <!-- Ваш персонаж -->
             <div class="card">
                 <h3 style="color: var(--primary); margin-bottom: 20px; text-align: center; font-size: 1.8rem;">Ваш персонаж</h3>
-                <div class="character-card" id="characterCard"></div>
+                <div class="character-section" id="myCharacter"></div>
+                
+                <h4 style="color: var(--purple); margin: 20px 0;">🃏 Картки умов</h4>
+                <div id="myConditionCards"></div>
+                
+                <h4 style="color: var(--blue); margin: 20px 0;">🎯 Картки дій</h4>
+                <div id="myActionCards"></div>
             </div>
 
             <!-- Інші гравці -->
@@ -846,22 +670,17 @@
 
             <!-- Голосування -->
             <div class="card" id="votingSection" style="display: none;">
-                <h3 style="color: var(--danger); margin-bottom: 20px; text-align: center; font-size: 1.8rem;">Голосування за виключення</h3>
-                <div class="status-message warning">Оберіть гравця, якого хочете виключити з бункеру</div>
+                <h3 style="color: var(--danger); margin-bottom: 20px; text-align: center; font-size: 1.8rem;">Голосування</h3>
                 <div class="vote-container" id="voteContainer"></div>
                 <div style="text-align: center; margin-top: 20px;">
-                    <button class="btn btn-danger" onclick="submitVote()" id="submitVoteBtn">Підтвердити голос</button>
+                    <button class="btn btn-danger" onclick="submitVote()" id="submitVoteBtn">Підтвердити</button>
                 </div>
             </div>
 
-            <!-- Результати голосування -->
-            <div id="voteResultsContainer"></div>
-
-            <!-- Кнопки дій -->
             <div class="action-buttons" id="gameActions"></div>
         </div>
 
-        <!-- Екран кінця гри -->
+        <!-- Кінець гри -->
         <div id="endScreen" class="screen">
             <div class="card">
                 <h2 style="text-align: center; font-size: 3rem; margin-bottom: 30px; color: var(--bunker-green);">Гра завершена!</h2>
@@ -873,21 +692,17 @@
         </div>
     </div>
 
-    <!-- Overlay для popup -->
-    <div class="overlay" id="overlay"></div>
-
-    <!-- Popup для подій -->
-    <div class="event-popup" id="eventPopup">
-        <div class="event-title" id="eventTitle"></div>
-        <div class="event-description" id="eventDescription"></div>
-        <div style="text-align: center;">
-            <button class="btn" onclick="closeEvent()">Зрозуміло</button>
+    <!-- Overlay для модалок -->
+    <div class="overlay" id="overlay" onclick="closeModal()"></div>
+    <div class="modal" id="modal" onclick="event.stopPropagation()">
+        <div id="modalContent"></div>
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="btn" onclick="closeModal()">Закрити</button>
         </div>
     </div>
 
-    <!-- Використовуємо безкоштовну версію PartyKit для онлайн мультиплеєру -->
     <script type="module">
-        // Глобальні змінні
+        // === ГЛОБАЛЬНІ ЗМІННІ ===
         window.gameState = {
             roomCode: '',
             playerId: null,
@@ -898,6 +713,7 @@
             phase: 'lobby',
             scenario: null,
             bunkerCapacity: 0,
+            bunkerConditions: [],
             currentVote: null,
             votingResults: {},
             timerStartTime: null,
@@ -907,346 +723,275 @@
             finalStory: null
         };
 
-        // AI налаштування
         window.aiConfig = {
             provider: localStorage.getItem('ai_provider') || 'none',
             apiKey: localStorage.getItem('ai_key') || ''
         };
 
-        // Оновлення статусу AI при завантаженні
-        window.addEventListener('DOMContentLoaded', () => {
-            updateAIStatusIndicator();
-        });
+        // === БАЗИ ДАНИХ ===
+        const characterDB = {
+            professions: [
+                'Лікар-хірург', 'Вчитель', 'Інженер', 'Програміст', 'Електрик', 'Сантехнік',
+                'Кухар', 'Фермер', 'Ветеринар', 'Психолог', 'Механік', 'Будівельник',
+                'Пожежник', 'Поліцейський', 'Військовий', 'Пілот', 'Механік', 'Водій',
+                'Біолог', 'Хімік', 'Фізик', 'Математик', 'Архітектор', 'Дизайнер'
+            ],
+            health: [
+                'Відмінне здоров\'я', 'Хороше здоров\'я', 'Діабет (під контролем)', 
+                'Астма (легка)', 'Алергія', 'Короткозорість', 'Артрит', 'Мігрень'
+            ],
+            hobbies: [
+                'Полювання', 'Риболовля', 'Садівництво', 'Кулінарія', 'Столярство',
+                'Малювання', 'Музика', 'Йога', 'Біг', 'Плавання', 'Шахи', 'Читання'
+            ],
+            baggage: [
+                'Ніж-мультитул', 'Аптечка', 'Запальничка', 'Ліхтарик', 'Мотузка',
+                'Компас', 'Радіо', 'Термос', 'Сухпайок', 'Насіння', 'Книга виживання'
+            ],
+            phobias: [
+                'Клаустрофобія', 'Акрофобія', 'Арахнофобія', 'Аквафобія', 'Пірофобія',
+                'Гемофобія', 'Ніктофобія', 'Соціофобія', 'Танатофобія'
+            ],
+            traits: [
+                'Оптиміст', 'Лідер', 'Креативний', 'Аналітичний', 'Емпат', 'Перфекціоніст',
+                'Храбрий', 'Терплячий', 'Організований', 'Спонтанний'
+            ],
+            additional: [
+                'Досвід виживання', 'Колишній військовий', 'Має дітей', 'Вагітна',
+                'Знає 5 мов', 'Водійські права', 'Медична освіта'
+            ]
+        };
+
+        const scenarios = [
+            { name: 'Ядерна війна', duration: '100 років', threat: 'Радіація, ядерна зима' },
+            { name: 'Зомбі-апокаліпсис', duration: '5 років', threat: 'Зомбі, голод' },
+            { name: 'Астероїд', duration: '50 років', threat: 'Відсутність сонця' },
+            { name: 'Пандемія', duration: '10 років', threat: 'Смертельний вірус' },
+            { name: 'Інопланетяни', duration: '20 років', threat: 'Прибульці' }
+        ];
+
+        const conditionCardsDB = [
+            { name: 'Імунітет', description: 'Захист від 1 картки дії', uses: 1 },
+            { name: 'Непорушність', description: 'Ніхто не може розкрити вашу характеристику', uses: 999 },
+            { name: 'Таємниця', description: 'Захист від розкриття будь-якої характеристики', uses: 2 },
+            { name: 'Щит', description: 'Повний захист 1 раз', uses: 1 }
+        ];
+
+        const actionCardsDB = [
+            { name: 'Обмін', description: 'Поміняти будь-яку свою характеристику на випадкову', uses: 1 },
+            { name: 'Копія', description: 'Скопіювати будь-яку характеристику іншого гравця', uses: 1 },
+            { name: 'Розкриття', description: 'Примусово розкрити 1 характеристику іншого гравця', uses: 1 },
+            { name: 'Зміна статі', description: 'Змінити свою стать', uses: 1 },
+            { name: 'Омолодження', description: 'Зменшити свій вік на 10 років', uses: 1 },
+            { name: 'Лікування', description: 'Змінити здоров\'я на "Відмінне"', uses: 1 }
+        ];
+
+        const bunkerConditionsDB = [
+            { type: 'positive', icon: '🌱', name: 'Оранжерея', description: 'Є можливість вирощувати їжу' },
+            { type: 'positive', icon: '💧', name: 'Очищення води', description: 'Система фільтрації води' },
+            { type: 'positive', icon: '📚', name: 'Бібліотека', description: 'Знання для відновлення' },
+            { type: 'positive', icon: '🔧', name: 'Майстерня', description: 'Інструменти та обладнання' },
+            { type: 'positive', icon: '⚡', name: 'Генератор', description: 'Автономне електроживлення' },
+            { type: 'negative', icon: '🍞', name: 'Мало їжі', description: 'Запасів на 6 місяців' },
+            { type: 'negative', icon: '❄️', name: 'Холод', description: 'Погане опалення' },
+            { type: 'negative', icon: '🔊', name: 'Шум', description: 'Погана звукоізоляція' },
+            { type: 'negative', icon: '🦠', name: 'Вологість', description: 'Ризик захворювань' }
+        ];
+
+        // === УТИЛІТИ ===
+        function randomElement(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function generateRoomCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            return Array.from({length: 4}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+        }
+
+        function generateCharacter() {
+            return {
+                profession: randomElement(characterDB.professions),
+                health: randomElement(characterDB.health),
+                hobby: randomElement(characterDB.hobbies),
+                baggage: randomElement(characterDB.baggage),
+                phobia: randomElement(characterDB.phobias),
+                trait: randomElement(characterDB.traits),
+                additional: randomElement(characterDB.additional),
+                age: Math.floor(Math.random() * 60) + 18,
+                gender: Math.random() > 0.5 ? 'Чоловік' : 'Жінка'
+            };
+        }
+
+        function generateCards() {
+            const conditionCards = Array.from({length: 2}, () => ({
+                ...randomElement(conditionCardsDB),
+                id: Date.now() + Math.random(),
+                remainingUses: null
+            })).map(card => ({
+                ...card,
+                remainingUses: card.uses
+            }));
+
+            const actionCards = Array.from({length: 2}, () => ({
+                ...randomElement(actionCardsDB),
+                id: Date.now() + Math.random(),
+                remainingUses: null
+            })).map(card => ({
+                ...card,
+                remainingUses: card.uses
+            }));
+
+            return { conditionCards, actionCards };
+        }
+
+        function generateBunkerConditions(playerCount) {
+            const positive = Array.from({length: 2}, () => 
+                bunkerConditionsDB.filter(c => c.type === 'positive')[Math.floor(Math.random() * 5)]
+            );
+            const negative = Array.from({length: 2}, () => 
+                bunkerConditionsDB.filter(c => c.type === 'negative')[Math.floor(Math.random() * 4)]
+            );
+            
+            const foodMonths = Math.floor(playerCount * (Math.random() * 4 + 2));
+            const food = {
+                type: foodMonths >= playerCount * 3 ? 'positive' : 'negative',
+                icon: '🍞',
+                name: 'Запаси їжі',
+                description: `${foodMonths} місяців їжі (${playerCount} гравців)`
+            };
+
+            return [food, ...positive, ...negative];
+        }
+
+        // === AI ФУНКЦІЇ ===
+        window.addEventListener('DOMContentLoaded', updateAIStatusIndicator);
 
         function updateAIStatusIndicator() {
             const indicator = document.getElementById('aiStatusIndicator');
             if (!indicator) return;
             
             if (window.aiConfig.provider === 'none' || !window.aiConfig.apiKey) {
-                indicator.innerHTML = `
-                    <div style="color: var(--accent); font-weight: 500;">⚠️ AI не налаштовано</div>
-                    <div style="color: var(--light); font-size: 0.9rem; margin-top: 5px;">Без AI ключа - базові тексти замість генерації</div>
-                `;
+                indicator.innerHTML = '<div style="color: var(--accent);">⚠️ AI не налаштовано</div>';
                 indicator.style.background = 'rgba(255, 210, 63, 0.2)';
-                indicator.style.borderColor = 'var(--accent)';
             } else {
-                const providerNames = {
-                    'gemini': '🤖 Google Gemini',
-                    'openai': '🤖 OpenAI ChatGPT'
-                };
-                indicator.innerHTML = `
-                    <div style="color: var(--bunker-green); font-weight: 500;">✅ AI активовано: ${providerNames[window.aiConfig.provider]}</div>
-                    <div style="color: var(--light); font-size: 0.9rem; margin-top: 5px;">Унікальні сценарії будуть генеруватися автоматично</div>
-                `;
+                const names = { gemini: '🤖 Gemini', openai: '🤖 OpenAI' };
+                indicator.innerHTML = `<div style="color: var(--bunker-green);">✅ ${names[window.aiConfig.provider]}</div>`;
                 indicator.style.background = 'rgba(59, 186, 92, 0.2)';
                 indicator.style.borderColor = 'var(--bunker-green)';
             }
         }
 
-        window.showAISettings = function() {
+        window.showAISettings = () => {
             showScreen('aiSettingsScreen');
             document.getElementById('aiProviderSelect').value = window.aiConfig.provider;
             updateAIProvider();
         }
 
-        window.updateAIProvider = function() {
+        window.updateAIProvider = () => {
             const provider = document.getElementById('aiProviderSelect').value;
-            const keySection = document.getElementById('aiKeySection');
+            const section = document.getElementById('aiKeySection');
             const instructions = document.getElementById('aiInstructions');
             
             if (provider === 'none') {
-                keySection.style.display = 'none';
+                section.style.display = 'none';
             } else {
-                keySection.style.display = 'block';
-                
-                if (provider === 'gemini') {
-                    instructions.innerHTML = `
-                        <strong style="color: var(--bunker-green);">Як отримати безкоштовний Gemini API ключ:</strong><br><br>
-                        1. Перейди на <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--primary);">Google AI Studio</a><br>
-                        2. Натисни "Get API Key" → "Create API Key"<br>
-                        3. Обери або створи Google Cloud проект<br>
-                        4. Скопіюй згенерований ключ (починається з "AIza...")<br>
-                        5. Вклей його тут<br><br>
-                        <strong style="color: var(--accent);">💡 Безкоштовно:</strong> 15 запитів на хвилину, 1500 на день
-                    `;
-                } else if (provider === 'openai') {
-                    instructions.innerHTML = `
-                        <strong style="color: var(--bunker-green);">Як отримати OpenAI API ключ:</strong><br><br>
-                        1. Перейди на <a href="https://platform.openai.com/api-keys" target="_blank" style="color: var(--primary);">OpenAI Platform</a><br>
-                        2. Зареєструйся або увійди<br>
-                        3. Натисни "Create new secret key"<br>
-                        4. Скопіюй ключ (починається з "sk-...")<br>
-                        5. Вклей його тут<br><br>
-                        <strong style="color: var(--accent);">💰 Платно:</strong> $5 безкоштовно при реєстрації, потім $0.002 за запит
-                    `;
-                }
+                section.style.display = 'block';
+                instructions.innerHTML = provider === 'gemini' 
+                    ? '<a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--primary);">Отримати Gemini ключ (безкоштовно)</a>'
+                    : '<a href="https://platform.openai.com/api-keys" target="_blank" style="color: var(--primary);">Отримати OpenAI ключ</a>';
             }
         }
 
-        window.saveAISettings = function() {
+        window.saveAISettings = () => {
             const provider = document.getElementById('aiProviderSelect').value;
             const apiKey = document.getElementById('aiKeyInput').value.trim();
             
             if (provider !== 'none' && !apiKey) {
-                alert('Будь ласка, введіть API ключ або оберіть "Без AI"');
+                alert('Введіть API ключ');
                 return;
             }
             
-            window.aiConfig.provider = provider;
-            window.aiConfig.apiKey = apiKey;
-            
+            window.aiConfig = { provider, apiKey };
             localStorage.setItem('ai_provider', provider);
             localStorage.setItem('ai_key', apiKey);
             
             updateAIStatusIndicator();
-            alert('Налаштування збережено!');
+            alert('Збережено!');
             showMenu();
         }
 
-        // База даних характеристик
-        const characterDatabase = {
-            professions: [
-                'Лікар-хірург', 'Вчитель', 'Інженер', 'Програміст', 'Електрик', 'Сантехнік', 
-                'Кухар', 'Фермер', 'Ветеринар', 'Психолог', 'Механік', 'Будівельник',
-                'Пожежник', 'Поліцейський', 'Військовий', 'Пілот', 'Моряк', 'Водій',
-                'Вчений-біолог', 'Хімік', 'Фізик', 'Математик', 'Архітектор', 'Дизайнер',
-                'Журналіст', 'Юрист', 'Бухгалтер', 'Музикант', 'Художник', 'Актор',
-                'Спортсмен', 'Тренер', 'Масажист', 'Перукар', 'Фотограф', 'Відеооператор',
-                'Електронік', 'Радіотехнік', 'Агроном', 'Зоолог', 'Географ', 'Історик',
-                'Філософ', 'Соціолог', 'Економіст', 'Політолог', 'Астроном', 'Геолог',
-                'Мисливець', 'Рибалка', 'Пасічник', 'Садівник', 'Флорист', 'Бармен',
-                'Офіціант', 'Прибиральник', 'Охоронець', 'Екскурсовод', 'Перекладач', 'Бібліотекар'
-            ],
-            
-            health: [
-                'Відмінне здоров\'я', 'Хороше здоров\'я', 'Задовільне здоров\'я', 
-                'Діабет (під контролем)', 'Астма (легка форма)', 'Алергія на пилок',
-                'Короткозорість', 'Далекозорість', 'Порушення слуху (легке)', 
-                'Артрит (початкова стадія)', 'Мігрень (епізодична)', 'Гіпертонія (контрольована)',
-                'Гастрит', 'Варикоз', 'Остеохондроз', 'Дерматит',
-                'ВІЛ-позитивний (на терапії)', 'Гепатит C (вилікуваний)', 'Втрата кінцівки (протез)',
-                'Параліч однієї руки', 'Хронічна втома', 'Безсоння', 'Епілепсія (рідкісні напади)',
-                'Анемія', 'Сколіоз', 'Плоскостопість'
-            ],
-            
-            hobbies: [
-                'Полювання', 'Риболовля', 'Садівництво', 'Кулінарія', 'Рукоділля', 'В\'язання',
-                'Столярство', 'Металообробка', 'Малювання', 'Музика', 'Співи', 'Танці',
-                'Йога', 'Медитація', 'Біг', 'Плавання', 'Бокс', 'Єдиноборства',
-                'Шахи', 'Покер', 'Настільні ігри', 'Відеоігри', 'Читання', 'Письменництво',
-                'Фотографія', 'Відеомонтаж', 'Програмування', 'Електроніка', 'Радіозв\'язок', 'Астрономія',
-                'Геологія', 'Ботаніка', 'Орнітологія', 'Акваріумістика', 'Тераріумістика', 'Бджільництво',
-                'Виноробство', 'Сироваріння', 'Хлібопечення', 'Консервування', 'Виживання в дикій природі', 'Скелелазіння',
-                'Парашутний спорт', 'Дайвінг', 'Серфінг', 'Велоспорт', 'Мотоспорт', 'Автоспорт'
-            ],
-            
-            baggage: [
-                'Ніж-мультитул', 'Аптечка першої допомоги', 'Запальничка Zippo', 'Ліхтарик з динамо',
-                'Мотузка (20м)', 'Компас', 'Карта місцевості', 'Радіоприймач', 'Рація',
-                'Термос з водою', 'Сухпайок (3 дні)', 'Консерви (10 банок)', 'Насіння овочів',
-                'Книга з виживання', 'Атлас лікарських рослин', 'Енциклопедія', 'Біблія',
-                'Гітара', 'Губна гармошка', 'Щоденник', 'Ручка та блокнот',
-                'Теплий спальний мішок', 'Палатка', 'Котелок', 'Посуд', 'Мило та шампунь',
-                'Зубна щітка і паста', 'Полотенце', 'Одяг (комплект)', 'Взуття (2 пари)', 'Дощовик',
-                'Сонячні окуляри', 'Панама', 'Рукавички', 'Шарф', 'Рюкзак',
-                'Сокира', 'Лопата', 'Пила', 'Молоток', 'Цвяхи та шурупи',
-                'Риболовне знаряддя', 'Лук зі стрілами', 'Праща', 'Ноутбук', 'Планшет',
-                'Сонячна батарея', 'Пауербанк', 'USB-флешка з інформацією', 'Фотоапарат', 'Бінокль',
-                'Шахи', 'Карти', 'М\'яч', 'Гітарні струни (запасні)', 'Батарейки (набір)'
-            ],
-            
-            phobias: [
-                'Клаустрофобія (боязнь замкнутого простору)', 'Агорафобія (боязнь відкритого простору)', 
-                'Акрофобія (боязнь висоти)', 'Арахнофобія (боязнь павуків)', 'Офідіофобія (боязнь змій)',
-                'Кінофобія (боязнь собак)', 'Айлурофобія (боязнь котів)', 'Ентомофобія (боязнь комах)',
-                'Аквафобія (боязнь води)', 'Пірофобія (боязнь вогню)', 'Гемофобія (боязнь крові)',
-                'Трипанофобія (боязнь голок)', 'Ніктофобія (боязнь темряви)', 'Астрапофобія (боязнь грози)',
-                'Соціофобія (боязнь людей)', 'Танатофобія (боязнь смерті)', 'Некрофобія (боязнь трупів)',
-                'Мікрофобія (боязнь мікробів)', 'Трискаідекафобія (боязнь числа 13)', 'Метатезіофобія (боязнь змін)',
-                'Монофобія (боязнь самотності)', 'Фонофобія (боязнь гучних звуків)', 'Хронофобія (боязнь часу)',
-                'Глософобія (боязнь виступів)', 'Філемафобія (боязнь поцілунків)', 'Одонтофобія (боязнь стоматологів)'
-            ],
-            
-            traits: [
-                'Оптиміст', 'Песиміст', 'Реаліст', 'Лідер', 'Виконавець', 'Креативний мислитель',
-                'Аналітичний розум', 'Емпат', 'Інтроверт', 'Екстраверт', 'Амбіверт', 'Перфекціоніст',
-                'Прокрастинатор', 'Трудоголік', 'Авантюрист', 'Обережний', 'Імпульсивний', 'Раціональний',
-                'Романтик', 'Прагматик', 'Альтруїст', 'Егоїст', 'Чесний', 'Брехливий',
-                'Вірний', 'Зрадник', 'Щедрий', 'Скупий', 'Храбрий', 'Боягузливий',
-                'Терплячий', 'Нетерплячий', 'Дисциплінований', 'Хаотичний', 'Організований', 'Неорганізований',
-                'Амбітний', 'Скромний', 'Конфліктний', 'Миротворець', 'Гумористичний', 'Серйозний',
-                'Довірливий', 'Підозрілий', 'Спонтанний', 'Плануючий', 'Енергійний', 'Спокійний'
-            ],
-            
-            additional: [
-                'Має досвід виживання в дикій природі', 'Колишній військовий', 'Майстер спорту',
-                'Має двох дітей', 'Має одну дитину', 'Вагітна (3 місяці)', 'Вагітна (7 місяців)',
-                'Одружений/заміжня', 'Розлучений/розлучена', 'Удівець/удова', 'Холостий/неодружена',
-                'Має літній досвід', 'Власник собаки-поводиря', 'Знає 5 мов', 'Знає 3 мови',
-                'Має водійські права категорії A, B, C', 'Має вантажівку', 'Має човен',
-                'Має радіостанцію', 'Має генератор', 'Має сонячні панелі', 'Має запаси їжі (рік)',
-                'Знає місце схованки зброї', 'Має карту підземних тунелів', 'Знає секретний бункер',
-                'Має медичну освіту', 'Має педагогічну освіту', 'Має технічну освіту', 'Має гуманітарну освіту',
-                'Самоучка в багатьох сферах', 'Має великий борг', 'Багатий/багата', 'Середній достаток',
-                'Бідний/бідна', 'Веган', 'Вегетаріанець', 'М\'ясоїд', 'Алкоголік (у ремісії)',
-                'Курець', 'Не п\'є і не курить', 'Спортивна форма', 'Зайва вага', 'Недостатня вага',
-                'Татуювання на 70% тіла', 'Має судимість (за дрібну крадіжку)', 'Ідеально чиста репутація',
-                'Колишній політик', 'Колишній злочинець (виправився)', 'Релігійний фанатик', 'Атеїст',
-                'Має талант до імпровізації', 'Має фотографічну пам\'ять', 'IQ 140+', 'IQ 90'
-            ]
-        };
+        async function callAI(prompt, maxTokens = 300) {
+            if (window.aiConfig.provider === 'none' || !window.aiConfig.apiKey) return '';
 
-        // База даних сценаріїв
-        const scenarios = [
-            {
-                name: 'Ядерна війна',
-                description: 'Почалася глобальна ядерна війна. Радіація покриє планету на 100 років. Необхідно відновити цивілізацію.',
-                duration: '100 років',
-                threat: 'Радіація, ядерна зима'
-            },
-            {
-                name: 'Зомбі-апокаліпсис',
-                description: 'Невідомий вірус перетворює людей на зомбі. 95% населення інфіковано. Потрібен час для створення вакцини.',
-                duration: '5 років',
-                threat: 'Зомбі, голод, хвороби'
-            },
-            {
-                name: 'Астероїд',
-                description: 'Величезний астероїд врізався в Землю, викликавши цунамі та виверження вулканів. Атмосфера затьмарена.',
-                duration: '50 років',
-                threat: 'Відсутність сонця, холод, голод'
-            },
-            {
-                name: 'Пандемія',
-                description: 'Смертельний вірус знищив 80% населення планети. Імунітет мають лише деякі люди.',
-                duration: '10 років',
-                threat: 'Хвороба, відсутність медикаментів'
-            },
-            {
-                name: 'Інопланетне вторгнення',
-                description: 'Прибульці атакували Землю і знищують людство. Вони шукають виживших через сканери.',
-                duration: '20 років',
-                threat: 'Прибульці, роботи, сканування'
-            },
-            {
-                name: 'Глобальне потепління',
-                description: 'Льодовики розтанули, рівень океану піднявся на 100 метрів. Більшість суші затоплено.',
-                duration: '200 років',
-                threat: 'Затоплення, спека, дефіцит прісної води'
-            },
-            {
-                name: 'Сонячний спалах',
-                description: 'Потужний сонячний спалах знищив всю електроніку на планеті. Починається новий середньовічний період.',
-                duration: '30 років',
-                threat: 'Відсутність електрики, анархія'
-            },
-            {
-                name: 'Біологічна зброя',
-                description: 'Випадково випущена біологічна зброя знищує все живе на поверхні. Повітря отруйне.',
-                duration: '15 років',
-                threat: 'Отруйне повітря, мутації'
-            },
-            {
-                name: 'Суперзвук',
-                description: 'Дивний звук з космосу змушує людей божеволіти та вбивати один одного. Тиша - єдиний порятунок.',
-                duration: '3 роки',
-                threat: 'Звукові хвилі, божевілля'
-            },
-            {
-                name: 'Магнітна аномалія',
-                description: 'Магнітне поле Землі зникло. Сонячна радіація вбиває все живе на поверхні за лічені хвилини.',
-                duration: '40 років',
-                threat: 'Космічна радіація, відсутність навігації'
+            try {
+                if (window.aiConfig.provider === 'gemini') {
+                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${window.aiConfig.apiKey}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                    });
+                    const data = await res.json();
+                    return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+                } else if (window.aiConfig.provider === 'openai') {
+                    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${window.aiConfig.apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: "gpt-3.5-turbo",
+                            messages: [{ role: "user", content: prompt }],
+                            max_tokens: maxTokens
+                        })
+                    });
+                    const data = await res.json();
+                    return data.choices?.[0]?.message?.content || '';
+                }
+            } catch (e) {
+                console.error('AI error:', e);
             }
-        ];
-
-        // Події під час гри
-        const gameEvents = [
-            {
-                title: '⚡ ЗБІЙ ЕЛЕКТРИКИ',
-                description: 'В бункері стався збій системи життєзабезпечення. Хтось має терміново відремонтувати генератор, інакше всі загинуть!'
-            },
-            {
-                title: '💊 ЗНАЙДЕНО ЛІКИ',
-                description: 'Виявлено невелику кількість ліків у сховищі. Вони можуть врятувати життя, але кому їх віддати?'
-            },
-            {
-                title: '🔥 ПОЖЕЖА',
-                description: 'У бункері почалася пожежа! Необхідно швидко її загасити, доки вона не знищила запаси їжі.'
-            },
-            {
-                title: '📻 РАДІОСИГНАЛ',
-                description: 'Вловлено слабкий радіосигнал від інших виживших. Можливо, є ще один бункер неподалік.'
-            },
-            {
-                title: '🦠 ХВОРОБА',
-                description: 'Хтось захворів невідомою хворобою. Це може бути заразно. Карантин або лікування?'
-            },
-            {
-                title: '🚪 ВИТІК ПОВІТРЯ',
-                description: 'Виявлено тріщину в герметичних дверях бункеру. Повітря витікає назовні, а радіація проникає всередину!'
-            },
-            {
-                title: '🍞 ДЕФІЦИТ ЇЖІ',
-                description: 'Запаси їжі закінчуються швидше, ніж очікувалося. Потрібно зменшити пайки або знайти додаткові джерела.'
-            },
-            {
-                title: '💎 ЦІННА ЗНАХІДКА',
-                description: 'Знайдено схованку з коштовностями попередніх мешканців. Це може викликати конфлікт за володіння.'
-            },
-            {
-                title: '🔊 ДИВНІ ЗВУКИ',
-                description: 'Зовні бункеру чути дивні звуки. Хтось... або щось... намагається проникнути всередину?'
-            },
-            {
-                title: '📖 ЗНАЙДЕНО ЖУРНАЛ',
-                description: 'Виявлено журнал попередніх мешканців бункеру. В ньому описані помилки, які призвели до їх загибелі.'
-            },
-            {
-                title: '🌡️ ХОЛОД',
-                description: 'Система опалення дає збій. Температура в бункері падає. Хтось замерзне, якщо не вжити заходів.'
-            },
-            {
-                title: '🔧 ПОЛОМКА ФІЛЬТРІВ',
-                description: 'Фільтри очищення води вийшли з ладу. Без них вода стає небезпечною для вживання.'
-            }
-        ];
-
-        // Утиліти
-        function generateRoomCode() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let code = '';
-            for (let i = 0; i < 4; i++) {
-                code += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return code;
+            return '';
         }
 
-        function randomElement(array) {
-            return array[Math.floor(Math.random() * array.length)];
+        async function generateScenarioDescription(scenario) {
+            const prompt = `Опиши детально апокаліптичний сценарій "${scenario.name}" для гри "Бункер". 
+Тривалість: ${scenario.duration}. Загроза: ${scenario.threat}.
+Напиши 4-6 речень атмосферного опису що сталося зі світом. Українською мовою.`;
+            
+            const desc = await callAI(prompt);
+            return desc || `${scenario.name}. ${scenario.threat}. Людству потрібно пережити ${scenario.duration} в бункері.`;
         }
 
-        function generateCharacter() {
-            return {
-                profession: randomElement(characterDatabase.professions),
-                health: randomElement(characterDatabase.health),
-                hobby: randomElement(characterDatabase.hobbies),
-                baggage: randomElement(characterDatabase.baggage),
-                phobia: randomElement(characterDatabase.phobias),
-                trait: randomElement(characterDatabase.traits),
-                additional: randomElement(characterDatabase.additional),
-                age: Math.floor(Math.random() * 60) + 18,
-                gender: Math.random() > 0.5 ? 'Чоловік' : 'Жінка'
-            };
+        async function generateEliminationStory(player, state) {
+            const alive = state.players.filter(p => !p.eliminated && p.id !== player.id);
+            const prompt = `Гра "Бункер". Сценарій: ${state.scenario.name}.
+Виключено: ${player.name} (${player.character.profession}, ${player.character.age} років).
+Залишилися: ${alive.map(p => p.character.profession).join(', ')}.
+Напиши 2-3 драматичні речення про вигнання ${player.name} з бункеру. Українською.`;
+            
+            const story = await callAI(prompt, 200);
+            return story || `${player.name} з важким серцем залишає бункер...`;
         }
 
-        // Використовуємо window.storage для збереження даних (API Claude)
+        async function generateFinalStory(state) {
+            const winners = state.players.filter(p => !p.eliminated);
+            const prompt = `Гра "Бункер". Сценарій: ${state.scenario.name}. Час: ${state.scenario.duration}.
+Виживші: ${winners.map(w => `${w.character.profession} (${w.character.age} років)`).join(', ')}.
+Напиши 4-6 речень епічної кінцівки про їх виживання та майбутнє. Українською.`;
+            
+            const story = await callAI(prompt, 400);
+            return story || `Після ${state.scenario.duration} виживші відбудували цивілізацію...`;
+        }
+
+        // === ЗБЕРЕЖЕННЯ/ЗАВАНТАЖЕННЯ ===
         async function saveRoomData() {
             try {
-                const data = {
+                const data = JSON.stringify({
                     players: gameState.players,
                     scenario: gameState.scenario,
                     bunkerCapacity: gameState.bunkerCapacity,
+                    bunkerConditions: gameState.bunkerConditions,
                     gameStarted: gameState.gameStarted,
                     phase: gameState.phase,
                     timerStartTime: gameState.timerStartTime,
@@ -1255,289 +1000,235 @@
                     messages: gameState.messages,
                     votingResults: gameState.votingResults,
                     finalStory: gameState.finalStory
-                };
-                await window.storage.set(`room_${gameState.roomCode}`, JSON.stringify(data), true);
+                });
+                await window.storage.set(`room_${gameState.roomCode}`, data, true);
             } catch (e) {
-                console.log('Storage not available, using localStorage fallback');
                 localStorage.setItem(`bunker_${gameState.roomCode}`, JSON.stringify(gameState));
             }
         }
 
-        async function loadRoomData(roomCode) {
+        async function loadRoomData(code) {
             try {
-                const result = await window.storage.get(`room_${roomCode}`, true);
+                const result = await window.storage.get(`room_${code}`, true);
                 return result ? JSON.parse(result.value) : null;
             } catch (e) {
-                console.log('Storage not available, using localStorage fallback');
-                const data = localStorage.getItem(`bunker_${roomCode}`);
+                const data = localStorage.getItem(`bunker_${code}`);
                 return data ? JSON.parse(data) : null;
             }
         }
 
-        // Навігація між екранами
-        function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
-            document.getElementById(screenId).classList.add('active');
+        // === НАВІГАЦІЯ ===
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id)?.classList.add('active');
         }
 
-        window.showMenu = function() {
-            showScreen('menuScreen');
-        }
+        window.showMenu = () => showScreen('menuScreen');
+        window.showCreateRoom = () => showScreen('createRoomScreen');
+        window.showJoinRoom = () => showScreen('joinRoomScreen');
 
-        window.showCreateRoom = function() {
-            showScreen('createRoomScreen');
-        }
-
-        window.showJoinRoom = function() {
-            showScreen('joinRoomScreen');
-        }
-
-        // Створення кімнати
-        window.createRoom = async function() {
-            const hostName = document.getElementById('hostNameInput').value.trim();
-            const maxPlayers = parseInt(document.getElementById('maxPlayersInput').value);
-            const discussionTime = parseInt(document.getElementById('discussionTimeInput').value);
+        // === СТВОРЕННЯ/ПРИЄДНАННЯ ===
+        window.createRoom = async () => {
+            const name = document.getElementById('hostNameInput').value.trim();
+            const max = parseInt(document.getElementById('maxPlayersInput').value);
+            const time = parseInt(document.getElementById('discussionTimeInput').value);
             
-            if (!hostName) {
-                alert('Будь ласка, введіть ваше ім\'я');
-                return;
-            }
-
-            if (maxPlayers < 4 || maxPlayers > 8) {
-                alert('Кількість гравців має бути від 4 до 8');
-                return;
-            }
+            if (!name) return alert('Введіть ім\'я');
+            if (max < 4 || max > 8) return alert('4-8 гравців');
 
             gameState.roomCode = generateRoomCode();
             gameState.playerId = Date.now().toString();
             gameState.isHost = true;
-            gameState.discussionTime = discussionTime;
+            gameState.discussionTime = time;
+            gameState.bunkerCapacity = Math.floor(max / 2) + Math.floor(Math.random() * 2);
             
+            const scenario = randomElement(scenarios);
+            const scenarioDesc = await generateScenarioDescription(scenario);
+            gameState.scenario = { ...scenario, description: scenarioDesc };
+            
+            gameState.bunkerConditions = generateBunkerConditions(max);
+            
+            const cards = generateCards();
             gameState.currentPlayer = {
                 id: gameState.playerId,
-                name: hostName,
+                name,
                 character: generateCharacter(),
                 isHost: true,
-                eliminated: false
+                eliminated: false,
+                revealedToAll: [],
+                ...cards
             };
             
             gameState.players = [gameState.currentPlayer];
-            gameState.scenario = randomElement(scenarios);
-            gameState.bunkerCapacity = Math.floor(maxPlayers / 2) + Math.floor(Math.random() * 2);
-            
             await saveRoomData();
             updateLobby();
             showScreen('lobbyScreen');
             startPolling();
         }
 
-        // Приєднання до кімнати
-        window.joinRoom = async function() {
-            const playerName = document.getElementById('playerNameInput').value.trim();
-            const roomCode = document.getElementById('roomCodeInput').value.trim().toUpperCase();
+        window.joinRoom = async () => {
+            const name = document.getElementById('playerNameInput').value.trim();
+            const code = document.getElementById('roomCodeInput').value.trim().toUpperCase();
             
-            if (!playerName || !roomCode) {
-                alert('Будь ласка, заповніть всі поля');
-                return;
-            }
+            if (!name || !code) return alert('Заповніть всі поля');
+            if (code.length !== 4) return alert('Код = 4 символи');
 
-            if (roomCode.length !== 4) {
-                alert('Код кімнати має складатися з 4 символів');
-                return;
-            }
+            const roomData = await loadRoomData(code);
+            if (!roomData) return alert('Кімнату не знайдено');
+            if (roomData.gameStarted) return alert('Гра вже почалася');
 
-            const roomData = await loadRoomData(roomCode);
-            
-            if (!roomData) {
-                alert('Кімнату не знайдено');
-                return;
-            }
-
-            if (roomData.gameStarted) {
-                alert('Гра в цій кімнаті вже почалася');
-                return;
-            }
-
-            gameState.roomCode = roomCode;
+            gameState.roomCode = code;
             gameState.playerId = Date.now().toString();
             gameState.isHost = false;
             gameState.scenario = roomData.scenario;
             gameState.bunkerCapacity = roomData.bunkerCapacity;
-            gameState.players = roomData.players;
+            gameState.bunkerConditions = roomData.bunkerConditions;
             gameState.discussionTime = roomData.discussionTime;
+            gameState.players = roomData.players;
             
+            const cards = generateCards();
             gameState.currentPlayer = {
                 id: gameState.playerId,
-                name: playerName,
+                name,
                 character: generateCharacter(),
                 isHost: false,
-                eliminated: false
+                eliminated: false,
+                revealedToAll: [],
+                ...cards
             };
             
             gameState.players.push(gameState.currentPlayer);
             await saveRoomData();
-            
             updateLobby();
             showScreen('lobbyScreen');
             startPolling();
         }
 
-        // Polling для оновлення даних
+        // === ЛОБІ ===
+        function updateLobby() {
+            document.getElementById('roomCodeDisplay').textContent = gameState.roomCode;
+            const link = window.location.href.split('?')[0] + '?room=' + gameState.roomCode;
+            document.getElementById('shareLinkInput').value = link;
+            
+            const max = gameState.bunkerCapacity * 2;
+            document.getElementById('playerCountDisplay').textContent = `${gameState.players.length} / ${max} гравців`;
+            
+            const list = document.getElementById('lobbyPlayerList');
+            list.innerHTML = gameState.players.map(p => 
+                `<div class="player-item ${p.isHost ? 'host' : ''}">${p.name}</div>`
+            ).join('');
+
+            const actions = document.getElementById('lobbyActions');
+            actions.innerHTML = '';
+            if (gameState.isHost) {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-success';
+                btn.textContent = 'Почати гру';
+                btn.onclick = startGame;
+                btn.disabled = gameState.players.length < 4;
+                actions.appendChild(btn);
+            }
+            const leave = document.createElement('button');
+            leave.className = 'btn btn-danger';
+            leave.textContent = 'Вийти';
+            leave.onclick = () => location.reload();
+            actions.appendChild(leave);
+        }
+
+        window.copyLink = () => {
+            const input = document.getElementById('shareLinkInput');
+            input.select();
+            document.execCommand('copy');
+            alert('Посилання скопійовано!');
+        }
+
+        // === POLLING ===
         let pollingInterval = null;
         function startPolling() {
             if (pollingInterval) clearInterval(pollingInterval);
             
             pollingInterval = setInterval(async () => {
-                const roomData = await loadRoomData(gameState.roomCode);
-                if (roomData) {
-                    const myPlayer = gameState.currentPlayer;
-                    gameState.players = roomData.players;
-                    gameState.phase = roomData.phase;
-                    gameState.timerStartTime = roomData.timerStartTime;
-                    gameState.timerDuration = roomData.timerDuration;
-                    gameState.messages = roomData.messages || [];
-                    gameState.votingResults = roomData.votingResults || {};
-                    gameState.finalStory = roomData.finalStory;
-                    
-                    // Оновлюємо свого персонажа
-                    const updatedPlayer = gameState.players.find(p => p.id === myPlayer.id);
-                    if (updatedPlayer) {
-                        gameState.currentPlayer = updatedPlayer;
-                    }
+                const data = await loadRoomData(gameState.roomCode);
+                if (!data) return;
 
-                    if (roomData.gameStarted && !gameState.gameStarted) {
-                        gameState.gameStarted = true;
-                        gameState.timerStartTime = roomData.timerStartTime;
-                        showGameScreen();
-                        startTimerUpdate();
-                    }
+                const myPlayer = gameState.currentPlayer;
+                gameState.players = data.players;
+                gameState.phase = data.phase;
+                gameState.timerStartTime = data.timerStartTime;
+                gameState.messages = data.messages || [];
+                gameState.votingResults = data.votingResults || {};
+                gameState.finalStory = data.finalStory;
+                
+                const updated = gameState.players.find(p => p.id === myPlayer.id);
+                if (updated) gameState.currentPlayer = updated;
 
-                    if (gameState.gameStarted) {
-                        if (gameState.phase === 'end') {
-                            clearInterval(pollingInterval);
-                            endGame();
-                        } else {
-                            updateGameScreen();
-                            updateChat();
-                        }
+                if (data.gameStarted && !gameState.gameStarted) {
+                    gameState.gameStarted = true;
+                    showGameScreen();
+                    startTimerUpdate();
+                }
+
+                if (gameState.gameStarted) {
+                    if (gameState.phase === 'end') {
+                        clearInterval(pollingInterval);
+                        endGame();
                     } else {
-                        updateLobby();
+                        updateGameScreen();
+                        updateChat();
                     }
+                } else {
+                    updateLobby();
                 }
             }, 2000);
         }
 
-        // Оновлення лобі
-        function updateLobby() {
-            document.getElementById('roomCodeDisplay').textContent = gameState.roomCode;
-            
-            const shareLink = window.location.href.split('?')[0] + '?room=' + gameState.roomCode;
-            document.getElementById('shareLinkInput').value = shareLink;
-            
-            const maxPlayers = gameState.bunkerCapacity * 2;
-            document.getElementById('playerCountDisplay').textContent = 
-                `Гравців: ${gameState.players.length} / ${maxPlayers}`;
-            
-            const playerList = document.getElementById('lobbyPlayerList');
-            playerList.innerHTML = '';
-            
-            gameState.players.forEach(player => {
-                const playerDiv = document.createElement('div');
-                playerDiv.className = 'player-item' + (player.isHost ? ' host' : '');
-                playerDiv.textContent = player.name;
-                playerList.appendChild(playerDiv);
-            });
-
-            const actionsDiv = document.getElementById('lobbyActions');
-            actionsDiv.innerHTML = '';
-            
-            if (gameState.isHost) {
-                const startBtn = document.createElement('button');
-                startBtn.className = 'btn btn-success';
-                startBtn.textContent = 'Почати гру';
-                startBtn.onclick = startGame;
-                startBtn.disabled = gameState.players.length < 4;
-                actionsDiv.appendChild(startBtn);
-            }
-            
-            const leaveBtn = document.createElement('button');
-            leaveBtn.className = 'btn btn-danger';
-            leaveBtn.textContent = 'Вийти з кімнати';
-            leaveBtn.onclick = () => location.reload();
-            actionsDiv.appendChild(leaveBtn);
-        }
-
-        // Копіювання посилання
-        window.copyShareLink = function() {
-            const input = document.getElementById('shareLinkInput');
-            input.select();
-            document.execCommand('copy');
-            alert('Посилання скопійовано! Поділись ним з друзями');
-        }
-
-        // Початок гри
+        // === ГРА ===
         async function startGame() {
             if (!gameState.isHost) return;
             
             gameState.gameStarted = true;
-            gameState.phase = 'discussion'; // Одразу починаємо обговорення
-            gameState.messages = [];
+            gameState.phase = 'discussion';
             gameState.timerStartTime = Date.now();
             gameState.timerDuration = gameState.discussionTime * 60;
+            gameState.messages = [];
             
             await saveRoomData();
-            addSystemMessage(`Гра почалася! У вас є ${gameState.discussionTime} хвилин на обговорення. Розкривайте характеристики за допомогою кнопок!`);
+            addSystemMessage(`Гра почалася! ${gameState.discussionTime} хвилин на обговорення.`);
             await saveRoomData();
-            
             showGameScreen();
             startTimerUpdate();
         }
 
-        // Показ ігрового екрану
         function showGameScreen() {
             showScreen('gameScreen');
             updateGameScreen();
         }
 
-        // Оновлення ігрового екрану
         function updateGameScreen() {
-            const phaseNames = {
-                'discussion': 'Обговорення',
-                'voting': 'Голосування',
-                'results': 'Результати голосування',
-                'end': 'Кінець гри'
-            };
-            
-            document.getElementById('phaseIndicator').textContent = phaseNames[gameState.phase] || 'Гра';
+            document.getElementById('phaseIndicator').textContent = 
+                gameState.phase === 'voting' ? 'Голосування' : 'Обговорення';
 
-            // Оновлення сценарію
-            const scenarioCard = document.getElementById('scenarioCard');
-            scenarioCard.innerHTML = `
+            // Сценарій
+            const card = document.getElementById('scenarioCard');
+            card.innerHTML = `
                 <div class="scenario-title">${gameState.scenario.name}</div>
                 <div class="scenario-desc">${gameState.scenario.description}</div>
-            `;
-
-            // Оновлення інфо про бункер
-            const bunkerInfo = document.getElementById('bunkerInfo');
-            const alivePlayers = gameState.players.filter(p => !p.eliminated).length;
-            bunkerInfo.innerHTML = `
-                <div class="bunker-stat">
-                    <div class="bunker-stat-value">${gameState.bunkerCapacity}</div>
-                    <div class="bunker-stat-label">Місць в бункері</div>
-                </div>
-                <div class="bunker-stat">
-                    <div class="bunker-stat-value">${alivePlayers}</div>
-                    <div class="bunker-stat-label">Гравців живі</div>
-                </div>
-                <div class="bunker-stat">
-                    <div class="bunker-stat-value">${gameState.scenario.duration}</div>
-                    <div class="bunker-stat-label">Час в бункері</div>
+                <div style="margin-top: 15px; text-align: center; color: var(--accent);">
+                    Тривалість: ${gameState.scenario.duration} • Загроза: ${gameState.scenario.threat}
                 </div>
             `;
 
-            // Оновлення таймера
+            // Умови бункеру
+            const cond = document.getElementById('bunkerConditions');
+            cond.innerHTML = gameState.bunkerConditions.map(c => `
+                <div class="condition-item ${c.type}">
+                    <div class="condition-icon">${c.icon}</div>
+                    <div class="condition-title">${c.name}</div>
+                    <div class="condition-description">${c.description}</div>
+                </div>
+            `).join('');
+
+            // Таймер
             if (gameState.phase === 'discussion' && gameState.timerStartTime) {
                 document.getElementById('timerContainer').style.display = 'block';
                 updateTimerDisplay();
@@ -1545,182 +1236,166 @@
                 document.getElementById('timerContainer').style.display = 'none';
             }
 
-            // Оновлення картки персонажа
-            updateCharacterCard();
+            // Мій персонаж
+            updateMyCharacter();
             
-            // Оновлення інших гравців
+            // Інші гравці
             updateOtherPlayers();
             
-            // Оновлення голосування
+            // Голосування
             if (gameState.phase === 'voting') {
                 showVoting();
             } else {
                 document.getElementById('votingSection').style.display = 'none';
             }
             
-            // Оновлення кнопок дій
+            // Кнопки
             updateGameActions();
         }
 
-        // Оновлення картки персонажа
-        function updateCharacterCard() {
+        function updateMyCharacter() {
             const char = gameState.currentPlayer.character;
-            const card = document.getElementById('characterCard');
+            const revealed = gameState.currentPlayer.revealedToAll || [];
             
-            if (!gameState.currentPlayer.revealedChars) {
-                gameState.currentPlayer.revealedChars = [];
-            }
-            
-            const characteristics = [
-                { id: 'gender', label: 'Стать', value: char.gender },
-                { id: 'age', label: 'Вік', value: `${char.age} років` },
-                { id: 'health', label: 'Здоров\'я', value: char.health },
-                { id: 'hobby', label: 'Хобі', value: char.hobby },
-                { id: 'baggage', label: 'Багаж', value: char.baggage },
-                { id: 'phobia', label: 'Фобія', value: char.phobia },
-                { id: 'trait', label: 'Риса характеру', value: char.trait },
-                { id: 'additional', label: 'Додатково', value: char.additional }
-            ];
+            const html = `
+                <div class="profession-header">${char.profession}</div>
+                ${renderCharacteristic('gender', 'Стать', char.gender, revealed)}
+                ${renderCharacteristic('age', 'Вік', `${char.age} років`, revealed)}
+                ${renderCharacteristic('health', 'Здоров\'я', char.health, revealed)}
+                ${renderCharacteristic('hobby', 'Хобі', char.hobby, revealed)}
+                ${renderCharacteristic('baggage', 'Багаж', char.baggage, revealed)}
+                ${renderCharacteristic('phobia', 'Фобія', char.phobia, revealed)}
+                ${renderCharacteristic('trait', 'Риса', char.trait, revealed)}
+                ${renderCharacteristic('additional', 'Додатково', char.additional, revealed)}
+            `;
+            document.getElementById('myCharacter').innerHTML = html;
 
-            card.innerHTML = characteristics.map(c => {
-                const revealed = gameState.currentPlayer.revealedChars.includes(c.id);
-                return `
-                    <div class="characteristic">
-                        <div class="characteristic-label">${c.label}:</div>
-                        <div class="characteristic-value ${revealed ? '' : 'hidden'}" style="display: flex; align-items: center; gap: 10px;">
-                            <span style="flex: 1;">${revealed ? c.value : '???'}</span>
-                            ${!revealed && gameState.phase !== 'end' ? `<button class="btn" style="padding: 5px 15px; font-size: 0.85rem;" onclick="window.revealCharacteristic('${c.id}')">Розкрити</button>` : ''}
-                        </div>
+            // Картки умов
+            const condCards = document.getElementById('myConditionCards');
+            condCards.innerHTML = (gameState.currentPlayer.conditionCards || []).map(card => `
+                <div class="card-item">
+                    <div class="card-header">
+                        <div class="card-title">🛡️ ${card.name}</div>
+                        <div class="card-uses">${card.remainingUses === 999 ? 'Протягом гри' : `${card.remainingUses} викор.`}</div>
                     </div>
-                `;
-            }).join('');
+                    <div class="card-description">${card.description}</div>
+                </div>
+            `).join('') || '<div style="color: var(--metal); text-align: center;">Немає карток умов</div>';
+
+            // Картки дій
+            const actCards = document.getElementById('myActionCards');
+            actCards.innerHTML = (gameState.currentPlayer.actionCards || []).map(card => `
+                <div class="card-item action-card">
+                    <div class="card-header">
+                        <div class="card-title">⚡ ${card.name}</div>
+                        <div class="card-uses">${card.remainingUses} викор.</div>
+                    </div>
+                    <div class="card-description">${card.description}</div>
+                    ${card.remainingUses > 0 ? '<button class="btn btn-small" style="margin-top: 10px;" onclick="useActionCard(\'' + card.id + '\')">Використати</button>' : ''}
+                </div>
+            `).join('') || '<div style="color: var(--metal); text-align: center;">Немає карток дій</div>';
         }
 
-        // Оновлення інших гравців
+        function renderCharacteristic(id, label, value, revealed) {
+            const isRevealed = revealed.includes(id);
+            return `
+                <div class="characteristic">
+                    <div class="characteristic-label">${label}:</div>
+                    <div class="characteristic-value ${isRevealed ? 'revealed-to-all' : ''}">
+                        ${value}
+                    </div>
+                    ${!isRevealed && gameState.phase !== 'end' ? 
+                        '<button class="btn btn-small" onclick="revealToAll(\'' + id + '\')">Розкрити всім</button>' : 
+                        (isRevealed ? '<span style="color: var(--bunker-green); font-size: 0.85rem;">✓ Розкрито</span>' : '')
+                    }
+                </div>
+            `;
+        }
+
+        window.revealToAll = async (charId) => {
+            if (!gameState.currentPlayer.revealedToAll) {
+                gameState.currentPlayer.revealedToAll = [];
+            }
+            
+            if (!gameState.currentPlayer.revealedToAll.includes(charId)) {
+                gameState.currentPlayer.revealedToAll.push(charId);
+                
+                const idx = gameState.players.findIndex(p => p.id === gameState.currentPlayer.id);
+                if (idx !== -1) gameState.players[idx] = gameState.currentPlayer;
+                
+                await saveRoomData();
+                
+                const names = { gender: 'стать', age: 'вік', health: 'здоров\'я', hobby: 'хобі', 
+                    baggage: 'багаж', phobia: 'фобію', trait: 'рису', additional: 'додаткове' };
+                addSystemMessage(`${gameState.currentPlayer.name} розкрив ${names[charId]}`);
+                await saveRoomData();
+                updateMyCharacter();
+            }
+        }
+
         function updateOtherPlayers() {
+            const others = gameState.players.filter(p => p.id !== gameState.currentPlayer.id);
             const container = document.getElementById('otherPlayersContainer');
-            const otherPlayers = gameState.players.filter(p => p.id !== gameState.currentPlayer.id);
             
-            container.innerHTML = otherPlayers.map(player => {
+            container.innerHTML = others.map(player => {
                 const char = player.character;
-                const revealedChars = player.revealedChars || [];
+                const revealed = player.revealedToAll || [];
                 
-                const characteristics = [
-                    { id: 'gender', label: 'Стать', value: char.gender },
-                    { id: 'age', label: 'Вік', value: `${char.age} років` },
-                    { id: 'health', label: 'Здоров\'я', value: char.health },
-                    { id: 'hobby', label: 'Хобі', value: char.hobby },
-                    { id: 'baggage', label: 'Багаж', value: char.baggage },
-                    { id: 'phobia', label: 'Фобія', value: char.phobia },
-                    { id: 'trait', label: 'Риса характеру', value: char.trait },
-                    { id: 'additional', label: 'Додатково', value: char.additional }
-                ];
-
                 return `
-                    <div class="character-card ${player.eliminated ? 'eliminated' : ''}">
-                        <h4 style="color: var(--accent); margin-bottom: 15px; text-align: center;">
-                            ${player.name} - <span style="color: var(--primary);">${char.profession}</span>
+                    <div class="character-section ${player.eliminated ? 'eliminated' : ''}">
+                        <div class="profession-header">
+                            ${player.name} - ${char.profession}
                             ${player.eliminated ? '<span style="color: var(--danger);"> (Виключений)</span>' : ''}
-                        </h4>
-                        ${characteristics.map(c => {
-                            const revealed = revealedChars.includes(c.id);
-                            return `
-                                <div class="characteristic">
-                                    <div class="characteristic-label">${c.label}:</div>
-                                    <div class="characteristic-value ${revealed ? '' : 'hidden'}">
-                                        ${revealed ? c.value : '???'}
-                                    </div>
-                                </div>
-                            `;
-                        }).join('')}
+                        </div>
+                        ${renderOtherCharacteristic('Стать', char.gender, revealed.includes('gender'))}
+                        ${renderOtherCharacteristic('Вік', `${char.age} років`, revealed.includes('age'))}
+                        ${renderOtherCharacteristic('Здоров\'я', char.health, revealed.includes('health'))}
+                        ${renderOtherCharacteristic('Хобі', char.hobby, revealed.includes('hobby'))}
+                        ${renderOtherCharacteristic('Багаж', char.baggage, revealed.includes('baggage'))}
+                        ${renderOtherCharacteristic('Фобія', char.phobia, revealed.includes('phobia'))}
+                        ${renderOtherCharacteristic('Риса', char.trait, revealed.includes('trait'))}
+                        ${renderOtherCharacteristic('Додатково', char.additional, revealed.includes('additional'))}
                     </div>
                 `;
             }).join('');
         }
 
-        // Розкриття характеристики
-        window.revealCharacteristic = async function(charId) {
-            if (!gameState.currentPlayer.revealedChars) {
-                gameState.currentPlayer.revealedChars = [];
-            }
-            
-            if (!gameState.currentPlayer.revealedChars.includes(charId)) {
-                gameState.currentPlayer.revealedChars.push(charId);
-                
-                // Оновлюємо гравця в списку
-                const playerIndex = gameState.players.findIndex(p => p.id === gameState.currentPlayer.id);
-                if (playerIndex !== -1) {
-                    gameState.players[playerIndex] = gameState.currentPlayer;
-                }
-                
-                await saveRoomData();
-                
-                const charNames = {
-                    'gender': 'стать',
-                    'age': 'вік',
-                    'health': 'здоров\'я',
-                    'hobby': 'хобі',
-                    'baggage': 'багаж',
-                    'phobia': 'фобію',
-                    'trait': 'рису характеру',
-                    'additional': 'додаткову інформацію'
-                };
-                
-                addSystemMessage(`${gameState.currentPlayer.name} розкрив ${charNames[charId]}`);
-                await saveRoomData();
-                updateCharacterCard();
-            }
+        function renderOtherCharacteristic(label, value, revealed) {
+            return `
+                <div class="characteristic">
+                    <div class="characteristic-label">${label}:</div>
+                    <div class="characteristic-value ${revealed ? '' : 'hidden-value'}">
+                        ${revealed ? value : '???'}
+                    </div>
+                </div>
+            `;
         }
 
-        // Оновлення кнопок дій
-        function updateGameActions() {
-            const actionsDiv = document.getElementById('gameActions');
-            actionsDiv.innerHTML = '';
+        window.useActionCard = (cardId) => {
+            alert('Функція карток дій в розробці. Буде доступна в наступній версії!');
+        }
 
-            if (gameState.phase === 'reveal' && gameState.isHost) {
-                const discussBtn = document.createElement('button');
-                discussBtn.className = 'btn btn-success';
-                discussBtn.textContent = 'Почати обговорення';
-                discussBtn.onclick = startDiscussion;
-                actionsDiv.appendChild(discussBtn);
-            }
+        function updateGameActions() {
+            const actions = document.getElementById('gameActions');
+            actions.innerHTML = '';
 
             if (gameState.phase === 'discussion' && gameState.isHost) {
-                const voteBtn = document.createElement('button');
-                voteBtn.className = 'btn btn-danger';
-                voteBtn.textContent = 'Почати голосування';
-                voteBtn.onclick = startVoting;
-                actionsDiv.appendChild(voteBtn);
-
-                const eventBtn = document.createElement('button');
-                eventBtn.className = 'btn btn-secondary';
-                eventBtn.textContent = 'Випадкова подія';
-                eventBtn.onclick = triggerRandomEvent;
-                actionsDiv.appendChild(eventBtn);
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-danger';
+                btn.textContent = 'Почати голосування';
+                btn.onclick = startVoting;
+                actions.appendChild(btn);
             }
         }
 
-        // Початок обговорення
-        async function startDiscussion() {
-            gameState.phase = 'discussion';
-            gameState.timerStartTime = Date.now();
-            gameState.timerDuration = gameState.discussionTime * 60;
-            
-            await saveRoomData();
-            
-            addSystemMessage(`Обговорення почалося! У вас є ${gameState.discussionTime} хвилин`);
-            updateGameScreen();
-            startTimerUpdate();
-        }
-
-        // Таймер
-        let timerUpdateInterval = null;
+        // === ТАЙМЕР ===
+        let timerInterval = null;
         function startTimerUpdate() {
-            if (timerUpdateInterval) clearInterval(timerUpdateInterval);
+            if (timerInterval) clearInterval(timerInterval);
             
-            timerUpdateInterval = setInterval(() => {
+            timerInterval = setInterval(() => {
                 if (gameState.phase !== 'discussion') {
-                    clearInterval(timerUpdateInterval);
+                    clearInterval(timerInterval);
                     return;
                 }
                 
@@ -1730,7 +1405,7 @@
                 const remaining = gameState.timerDuration - elapsed;
                 
                 if (remaining <= 0 && gameState.isHost) {
-                    clearInterval(timerUpdateInterval);
+                    clearInterval(timerInterval);
                     startVoting();
                 }
             }, 1000);
@@ -1740,31 +1415,27 @@
             const elapsed = Math.floor((Date.now() - gameState.timerStartTime) / 1000);
             const remaining = Math.max(0, gameState.timerDuration - elapsed);
             
-            const minutes = Math.floor(remaining / 60);
-            const seconds = remaining % 60;
-            const display = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            const min = Math.floor(remaining / 60);
+            const sec = remaining % 60;
+            const display = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
             
-            const timerEl = document.getElementById('gameTimer');
-            timerEl.textContent = display;
+            const timer = document.getElementById('gameTimer');
+            timer.textContent = display;
             
-            timerEl.classList.remove('warning', 'critical');
-            if (remaining <= 30) {
-                timerEl.classList.add('critical');
-            } else if (remaining <= 60) {
-                timerEl.classList.add('warning');
-            }
+            timer.classList.remove('warning', 'critical');
+            if (remaining <= 30) timer.classList.add('critical');
+            else if (remaining <= 60) timer.classList.add('warning');
         }
 
-        // Чат
-        window.sendMessage = async function() {
+        // === ЧАТ ===
+        window.sendMessage = async () => {
             const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            
-            if (!message) return;
+            const msg = input.value.trim();
+            if (!msg) return;
             
             gameState.messages.push({
                 author: gameState.currentPlayer.name,
-                text: message,
+                text: msg,
                 timestamp: Date.now()
             });
             
@@ -1775,35 +1446,34 @@
         function addSystemMessage(text) {
             gameState.messages.push({
                 author: 'СИСТЕМА',
-                text: text,
+                text,
                 timestamp: Date.now(),
                 isSystem: true
             });
         }
 
         function updateChat() {
-            const messagesDiv = document.getElementById('chatMessages');
-            const shouldScroll = messagesDiv.scrollHeight - messagesDiv.scrollTop === messagesDiv.clientHeight;
-            
-            messagesDiv.innerHTML = gameState.messages.map(msg => `
-                <div class="chat-message ${msg.isSystem ? 'system' : ''}">
-                    <div class="chat-message-author">${msg.author}</div>
-                    <div class="chat-message-text">${msg.text}</div>
+            const messages = document.getElementById('chatMessages');
+            messages.innerHTML = gameState.messages.map(m => `
+                <div class="chat-message ${m.isSystem ? 'system' : ''}">
+                    <div class="chat-message-author">${m.author}</div>
+                    <div>${m.text}</div>
                 </div>
             `).join('');
-            
-            if (shouldScroll) {
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            }
+            messages.scrollTop = messages.scrollHeight;
         }
 
-        // Голосування
+        document.getElementById('chatInput')?.addEventListener('keypress', e => {
+            if (e.key === 'Enter') window.sendMessage();
+        });
+
+        // === ГОЛОСУВАННЯ ===
         async function startVoting() {
             gameState.phase = 'voting';
             gameState.votingResults = {};
-            
             await saveRoomData();
-            addSystemMessage('Голосування почалося! Оберіть гравця для виключення');
+            addSystemMessage('Голосування почалося!');
+            await saveRoomData();
             showVoting();
         }
 
@@ -1811,333 +1481,148 @@
             document.getElementById('votingSection').style.display = 'block';
             document.getElementById('timerContainer').style.display = 'none';
             
-            const voteContainer = document.getElementById('voteContainer');
-            const alivePlayers = gameState.players.filter(p => !p.eliminated && p.id !== gameState.currentPlayer.id);
+            const alive = gameState.players.filter(p => !p.eliminated && p.id !== gameState.currentPlayer.id);
+            const voted = gameState.votingResults[gameState.currentPlayer.id];
+            document.getElementById('submitVoteBtn').disabled = voted;
             
-            const hasVoted = gameState.votingResults[gameState.currentPlayer.id];
-            document.getElementById('submitVoteBtn').disabled = hasVoted;
-            
-            voteContainer.innerHTML = alivePlayers.map(player => `
-                <div class="vote-option ${gameState.currentVote === player.id ? 'selected' : ''}" 
-                     data-player-id="${player.id}" 
-                     onclick="window.selectVote('${player.id}')">
-                    <div style="font-size: 1.3rem; font-weight: 500; margin-bottom: 5px;">${player.name}</div>
-                    <div style="font-size: 0.9rem; color: var(--metal);">${player.character.profession}</div>
+            const container = document.getElementById('voteContainer');
+            container.innerHTML = alive.map(p => `
+                <div class="vote-option ${gameState.currentVote === p.id ? 'selected' : ''}" 
+                     onclick="selectVote('${p.id}')">
+                    <div style="font-size: 1.3rem; font-weight: 500;">${p.name}</div>
+                    <div style="font-size: 0.9rem; color: var(--metal);">${p.character.profession}</div>
                 </div>
             `).join('');
-            
-            if (hasVoted) {
-                const resultDiv = document.getElementById('voteResultsContainer');
-                resultDiv.innerHTML = `
-                    <div class="status-message info">
-                        Ви вже проголосували. Очікуємо інших гравців...
-                    </div>
-                `;
-            }
         }
 
-        window.selectVote = function(playerId) {
+        window.selectVote = (id) => {
             if (gameState.votingResults[gameState.currentPlayer.id]) return;
-            
-            gameState.currentVote = playerId;
-            
-            document.querySelectorAll('.vote-option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            
-            const selected = document.querySelector(`[data-player-id="${playerId}"]`);
-            if (selected) {
-                selected.classList.add('selected');
-            }
+            gameState.currentVote = id;
+            showVoting();
         }
 
-        window.submitVote = async function() {
-            if (!gameState.currentVote) {
-                alert('Будь ласка, оберіть гравця для голосування');
-                return;
-            }
-
-            if (gameState.votingResults[gameState.currentPlayer.id]) {
-                alert('Ви вже проголосували');
-                return;
-            }
+        window.submitVote = async () => {
+            if (!gameState.currentVote) return alert('Оберіть гравця');
+            if (gameState.votingResults[gameState.currentPlayer.id]) return alert('Ви вже проголосували');
 
             gameState.votingResults[gameState.currentPlayer.id] = gameState.currentVote;
             await saveRoomData();
             
             document.getElementById('submitVoteBtn').disabled = true;
-            
-            const resultDiv = document.getElementById('voteResultsContainer');
-            resultDiv.innerHTML = `
-                <div class="status-message info">
-                    Ваш голос прийнято! Очікуємо інших гравців...
-                </div>
-            `;
+            alert('Ваш голос прийнято!');
 
-            // Перевірка, чи всі проголосували
-            if (gameState.isHost) {
-                checkVotingComplete();
-            }
+            if (gameState.isHost) checkVotingComplete();
         }
 
         async function checkVotingComplete() {
-            const alivePlayers = gameState.players.filter(p => !p.eliminated);
-            const votedCount = Object.keys(gameState.votingResults).length;
-            
-            if (votedCount >= alivePlayers.length) {
-                // Підрахунок голосів
-                const votes = {};
-                Object.values(gameState.votingResults).forEach(playerId => {
-                    votes[playerId] = (votes[playerId] || 0) + 1;
-                });
+            const alive = gameState.players.filter(p => !p.eliminated);
+            if (Object.keys(gameState.votingResults).length < alive.length) return;
 
-                // Знаходимо гравця з найбільшою кількістю голосів
-                let maxVotes = 0;
-                let eliminatedPlayerId = null;
-                Object.entries(votes).forEach(([playerId, count]) => {
-                    if (count > maxVotes) {
-                        maxVotes = count;
-                        eliminatedPlayerId = playerId;
-                    }
-                });
+            // Підрахунок
+            const votes = {};
+            Object.values(gameState.votingResults).forEach(id => {
+                votes[id] = (votes[id] || 0) + 1;
+            });
 
-                if (eliminatedPlayerId) {
-                    const player = gameState.players.find(p => p.id === eliminatedPlayerId);
-                    if (player) {
-                        player.eliminated = true;
-                        
-                        // Генеруємо AI-сценарій виключення
-                        const eliminationStory = await generateEliminationStory(player, gameState);
-                        addSystemMessage(`${player.name} виключений з бункеру! (${maxVotes} голосів)`);
-                        addSystemMessage(eliminationStory);
-                        
-                        // Показуємо драматичну сцену
-                        showEvent('💀 ВИКЛЮЧЕННЯ', eliminationStory);
-                    }
+            let max = 0, eliminatedId = null;
+            Object.entries(votes).forEach(([id, count]) => {
+                if (count > max) {
+                    max = count;
+                    eliminatedId = id;
                 }
+            });
 
-                // Перевірка кінця гри
-                const alive = gameState.players.filter(p => !p.eliminated).length;
-                if (alive <= gameState.bunkerCapacity) {
-                    gameState.phase = 'end';
-                    await saveRoomData();
+            if (eliminatedId) {
+                const player = gameState.players.find(p => p.id === eliminatedId);
+                if (player) {
+                    player.eliminated = true;
                     
-                    // Генеруємо фінальну історію
-                    setTimeout(async () => {
-                        const finalStory = await generateFinalStory(gameState);
-                        gameState.finalStory = finalStory;
-                        await saveRoomData();
-                        endGame();
-                    }, 3000);
-                } else {
-                    // Повернення до обговорення
-                    gameState.phase = 'discussion';
-                    gameState.timerStartTime = Date.now();
-                    gameState.votingResults = {};
-                    await saveRoomData();
-                    addSystemMessage('Голосування завершено. Продовжуємо обговорення');
+                    const story = await generateEliminationStory(player, gameState);
+                    const survivors = gameState.players.filter(p => !p.eliminated);
+                    
+                    showEliminationModal(player, survivors, story);
+                    addSystemMessage(`${player.name} виключений! (${max} голосів)`);
                 }
             }
-        }
 
-        // AI генерація історії виключення
-        async function generateEliminationStory(player, state) {
-            try {
-                const alivePlayers = state.players.filter(p => !p.eliminated && p.id !== player.id);
-                const playersInfo = alivePlayers.map(p => `${p.name} (${p.character.profession})`).join(', ');
+            // Перевірка кінця
+            const aliveNow = gameState.players.filter(p => !p.eliminated).length;
+            if (aliveNow <= gameState.bunkerCapacity) {
+                gameState.phase = 'end';
+                await saveRoomData();
                 
-                const response = await fetch("https://api.anthropic.com/v1/messages", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        model: "claude-sonnet-4-20250514",
-                        max_tokens: 1000,
-                        messages: [
-                            { 
-                                role: "user", 
-                                content: `Ти - розповідач постапокаліптичної гри "Бункер". 
-
-Сценарій: ${state.scenario.name} - ${state.scenario.description}
-Виключений гравець: ${player.name} (${player.character.profession}, ${player.character.age} років, ${player.character.gender})
-Залишилися в бункері: ${playersInfo}
-
-Напиши КОРОТКУ (2-3 речення) драматичну сцену виключення цього гравця з бункеру. Опиши момент, коли його виводять з бункеру в небезпечний зовнішній світ. Будь емоційним та атмосферним. Пиши українською мовою.`
-                            }
-                        ]
-                    })
-                });
-
-                const data = await response.json();
-                const story = data.content.find(c => c.type === 'text')?.text || 
-                    `${player.name} важкими кроками йде до виходу з бункеру. Герметичні двері відчиняються з гучним свистом, і назовні видно лише темряву та руїни. Двері зачиняються за ним назавжди...`;
-                
-                return story;
-            } catch (e) {
-                console.error('AI generation failed:', e);
-                return `${player.name} важкими кроками йде до виходу з бункеру. Герметичні двері відчиняються з гучним свистом, і назовні видно лише темряву та руїни. Двері зачиняються за ним назавжди...`;
+                setTimeout(async () => {
+                    gameState.finalStory = await generateFinalStory(gameState);
+                    await saveRoomData();
+                    endGame();
+                }, 3000);
+            } else {
+                gameState.phase = 'discussion';
+                gameState.timerStartTime = Date.now();
+                gameState.votingResults = {};
+                await saveRoomData();
+                addSystemMessage('Продовжуємо обговорення');
+                await saveRoomData();
             }
         }
 
-        // AI генерація фінальної історії
-        async function generateFinalStory(state) {
-            try {
-                const winners = state.players.filter(p => !p.eliminated);
-                const winnersInfo = winners.map(p => 
-                    `${p.name} (${p.character.profession}, ${p.character.age} років, ${p.character.gender})`
-                ).join(', ');
-                
-                const response = await fetch("https://api.anthropic.com/v1/messages", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        model: "claude-sonnet-4-20250514",
-                        max_tokens: 1000,
-                        messages: [
-                            { 
-                                role: "user", 
-                                content: `Ти - розповідач постапокаліптичної гри "Бункер". 
-
-Сценарій: ${state.scenario.name} - ${state.scenario.description}
-Час в бункері: ${state.scenario.duration}
-Виживші: ${winnersInfo}
-
-Напиши КОРОТКУ (3-5 речень) епічну кінцівку про те, як ці люди вижили в бункері та що сталося після виходу. Чи змогли вони відновити цивілізацію? Як їхні професії та навички допомогли? Будь оптимістичним або реалістичним в залежності від складу команди. Пиши українською мовою.`
-                            }
-                        ]
-                    })
-                });
-
-                const data = await response.json();
-                const story = data.content.find(c => c.type === 'text')?.text || 
-                    `Після ${state.scenario.duration} в бункері, герметичні двері нарешті відчинилися. Світ змінився назавжди, але виживші були готові до нового початку. Завдяки своїм навичкам та згуртованості, вони стали основою нової цивілізації.`;
-                
-                return story;
-            } catch (e) {
-                console.error('AI generation failed:', e);
-                return `Після ${state.scenario.duration} в бункері, герметичні двері нарешті відчинилися. Світ змінився назавжди, але виживші були готові до нового початку. Завдяки своїм навичкам та згуртованості, вони стали основою нової цивілізації.`;
-            }
-        }
-
-        // Випадкова подія
-        window.triggerRandomEvent = async function() {
-            // Генеруємо унікальну подію через AI
-            const aiEvent = await generateRandomEvent(gameState);
-            showEvent(aiEvent.title, aiEvent.description);
-            addSystemMessage(`Подія: ${aiEvent.title}`);
-            await saveRoomData();
-        }
-
-        // AI генерація випадкової події
-        async function generateRandomEvent(state) {
-            try {
-                const alivePlayers = state.players.filter(p => !p.eliminated);
-                const playersInfo = alivePlayers.map(p => `${p.name} (${p.character.profession})`).join(', ');
-                
-                const response = await fetch("https://api.anthropic.com/v1/messages", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        model: "claude-sonnet-4-20250514",
-                        max_tokens: 1000,
-                        messages: [
-                            { 
-                                role: "user", 
-                                content: `Ти - майстер гри в постапокаліптичну гру "Бункер". 
-
-Сценарій: ${state.scenario.name} - ${state.scenario.description}
-Гравці в бункері: ${playersInfo}
-
-Придумай УНІКАЛЬНУ випадкову подію, яка може статися в бункері. Це має бути:
-- Несподіваним викликом або проблемою
-- Пов'язаним зі сценарієм апокаліпсису
-- Таким, що створює дилему або конфлікт
-- Можливо, потребує навичок когось з гравців
-
-Відповідь надай ТІЛЬКИ у форматі JSON без додаткового тексту:
-{
-  "title": "Короткий заголовок з емодзі",
-  "description": "2-3 речення опису події"
-}
-
-Пиши українською мовою.`
-                            }
-                        ]
-                    })
-                });
-
-                const data = await response.json();
-                const text = data.content.find(c => c.type === 'text')?.text || '';
-                
-                // Очищаємо від markdown
-                const jsonText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-                const event = JSON.parse(jsonText);
-                
-                return event;
-            } catch (e) {
-                console.error('AI event generation failed:', e);
-                return randomElement(gameEvents);
-            }
-        }
-
-        function showEvent(title, description) {
-            document.getElementById('eventTitle').textContent = title;
-            document.getElementById('eventDescription').textContent = description;
+        function showEliminationModal(player, survivors, story) {
+            const content = document.getElementById('modalContent');
+            content.innerHTML = `
+                <div class="modal-title">💀 ВИКЛЮЧЕННЯ</div>
+                <div class="eliminated-player">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">${player.name}</div>
+                    <div style="font-size: 1.2rem; color: var(--metal);">${player.character.profession}</div>
+                </div>
+                <div style="margin: 30px 0; font-size: 1.15rem; line-height: 1.8; color: var(--light);">
+                    ${story}
+                </div>
+                <div class="survivors-list">
+                    <div style="font-size: 1.5rem; color: var(--bunker-green); margin-bottom: 15px; text-align: center;">
+                        Залишилося: ${survivors.length}
+                    </div>
+                    ${survivors.map(s => `<div style="padding: 8px;">${s.name} - ${s.character.profession}</div>`).join('')}
+                </div>
+            `;
             document.getElementById('overlay').classList.add('show');
-            document.getElementById('eventPopup').classList.add('show');
         }
 
-        window.closeEvent = function() {
+        window.closeModal = () => {
             document.getElementById('overlay').classList.remove('show');
-            document.getElementById('eventPopup').classList.remove('show');
         }
 
-        // Кінець гри
+        // === КІНЕЦЬ ===
         function endGame() {
             showScreen('endScreen');
             
             const winners = gameState.players.filter(p => !p.eliminated);
-            const winnersContainer = document.getElementById('winnersContainer');
+            const container = document.getElementById('winnersContainer');
             
-            const finalStory = gameState.finalStory || 'Завантаження епілогу...';
-            
-            winnersContainer.innerHTML = `
-                <div class="scenario-card" style="border-color: var(--bunker-green); background: linear-gradient(135deg, rgba(59, 186, 92, 0.2), rgba(76, 175, 80, 0.2));">
-                    <div class="scenario-title" style="color: var(--bunker-green);">
+            container.innerHTML = `
+                <div style="background: rgba(59, 186, 92, 0.2); border: 3px solid var(--bunker-green); padding: 30px; border-radius: 12px;">
+                    <div style="font-size: 2.5rem; color: var(--bunker-green); text-align: center; margin-bottom: 20px;">
                         🎉 ВИЖИВШИХ: ${winners.length}
                     </div>
-                    <div class="scenario-desc" style="margin: 20px 0;">
-                        ${winners.map(w => `
-                            <div style="margin: 15px 0; padding: 15px; background: rgba(13, 13, 13, 0.4); border-radius: 8px; border-left: 4px solid var(--bunker-green);">
-                                <div style="font-size: 1.4rem; font-weight: 500; color: var(--accent);">${w.name}</div>
-                                <div style="font-size: 1.1rem; color: var(--bunker-green); margin-top: 5px;">${w.character.profession}</div>
-                            </div>
-                        `).join('')}
-                    </div>
+                    ${winners.map(w => `
+                        <div style="margin: 15px 0; padding: 20px; background: rgba(13, 13, 13, 0.6); border-radius: 8px; border-left: 4px solid var(--bunker-green);">
+                            <div style="font-size: 1.5rem; color: var(--accent);">${w.name}</div>
+                            <div style="font-size: 1.1rem; color: var(--bunker-green); margin-top: 5px;">${w.character.profession}</div>
+                        </div>
+                    `).join('')}
                 </div>
                 
-                <div class="card" style="margin-top: 30px; border: 3px solid var(--accent);">
-                    <h3 style="color: var(--accent); margin-bottom: 20px; text-align: center; font-size: 1.8rem; font-family: 'Bebas Neue', cursive; letter-spacing: 3px;">📖 ЕПІЛОГ</h3>
-                    <div style="font-size: 1.15rem; line-height: 1.8; color: var(--light); text-align: center; padding: 20px;">
-                        ${finalStory}
+                <div style="margin-top: 30px; padding: 30px; background: rgba(26, 26, 26, 0.95); border: 3px solid var(--accent); border-radius: 12px;">
+                    <div style="font-size: 2rem; color: var(--accent); text-align: center; margin-bottom: 20px;">
+                        📖 ЕПІЛОГ
+                    </div>
+                    <div style="font-size: 1.2rem; line-height: 2; color: var(--light); text-align: center;">
+                        ${gameState.finalStory || 'Завантаження...'}
                     </div>
                 </div>
             `;
         }
 
-        // Обробник Enter для чату
-        document.getElementById('chatInput')?.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                window.sendMessage();
-            }
-        });
-
-        // Перевірка URL параметрів для автоматичного приєднання
+        // Автостарт при URL параметрі
         const urlParams = new URLSearchParams(window.location.search);
         const roomParam = urlParams.get('room');
         if (roomParam) {
