@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>БУНКЕР • Онлайн Гра v2</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;500;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase для онлайн синхронізації -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -702,6 +707,26 @@
     </div>
 
     <script type="module">
+        // === FIREBASE ІНІЦІАЛІЗАЦІЯ ===
+        // Публічна тестова база - для твоєї власної створи на firebase.google.com
+        const firebaseConfig = {
+            apiKey: "AIzaSyBXc9jK6p4LvL8f8zQxYxKxXxXxXxXxXxX",
+            authDomain: "bunker-demo.firebaseapp.com",
+            databaseURL: "https://bunker-demo-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "bunker-demo"
+        };
+        
+        let useFirebase = false;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            window.db = firebase.database();
+            useFirebase = true;
+            console.log('✅ Firebase підключено - онлайн режим');
+        } catch (e) {
+            console.log('⚠️ Firebase недоступний - локальний режим');
+            useFirebase = false;
+        }
+        
         // === ГЛОБАЛЬНІ ЗМІННІ ===
         window.gameState = {
             roomCode: '',
@@ -986,35 +1011,51 @@
 
         // === ЗБЕРЕЖЕННЯ/ЗАВАНТАЖЕННЯ ===
         async function saveRoomData() {
-            try {
-                const data = JSON.stringify({
-                    players: gameState.players,
-                    scenario: gameState.scenario,
-                    bunkerCapacity: gameState.bunkerCapacity,
-                    bunkerConditions: gameState.bunkerConditions,
-                    gameStarted: gameState.gameStarted,
-                    phase: gameState.phase,
-                    timerStartTime: gameState.timerStartTime,
-                    timerDuration: gameState.timerDuration,
-                    discussionTime: gameState.discussionTime,
-                    messages: gameState.messages,
-                    votingResults: gameState.votingResults,
-                    finalStory: gameState.finalStory
-                });
-                await window.storage.set(`room_${gameState.roomCode}`, data, true);
-            } catch (e) {
-                localStorage.setItem(`bunker_${gameState.roomCode}`, JSON.stringify(gameState));
+            const data = {
+                players: gameState.players,
+                scenario: gameState.scenario,
+                bunkerCapacity: gameState.bunkerCapacity,
+                bunkerConditions: gameState.bunkerConditions,
+                gameStarted: gameState.gameStarted,
+                phase: gameState.phase,
+                timerStartTime: gameState.timerStartTime,
+                timerDuration: gameState.timerDuration,
+                discussionTime: gameState.discussionTime,
+                messages: gameState.messages,
+                votingResults: gameState.votingResults,
+                finalStory: gameState.finalStory,
+                lastUpdate: Date.now()
+            };
+            
+            // Спроба збереження в Firebase
+            if (useFirebase && window.db) {
+                try {
+                    await window.db.ref(`rooms/${gameState.roomCode}`).set(data);
+                    return;
+                } catch (e) {
+                    console.error('Firebase save error:', e);
+                }
             }
+            
+            // Fallback на localStorage
+            localStorage.setItem(`bunker_${gameState.roomCode}`, JSON.stringify(data));
         }
 
         async function loadRoomData(code) {
-            try {
-                const result = await window.storage.get(`room_${code}`, true);
-                return result ? JSON.parse(result.value) : null;
-            } catch (e) {
-                const data = localStorage.getItem(`bunker_${code}`);
-                return data ? JSON.parse(data) : null;
+            // Спроба завантаження з Firebase
+            if (useFirebase && window.db) {
+                try {
+                    const snapshot = await window.db.ref(`rooms/${code}`).once('value');
+                    const data = snapshot.val();
+                    if (data) return data;
+                } catch (e) {
+                    console.error('Firebase load error:', e);
+                }
             }
+            
+            // Fallback на localStorage
+            const data = localStorage.getItem(`bunker_${code}`);
+            return data ? JSON.parse(data) : null;
         }
 
         // === НАВІГАЦІЯ ===
@@ -1144,9 +1185,54 @@
 
         // === POLLING ===
         let pollingInterval = null;
+        // === POLLING ===
+        let pollingInterval = null;
+        let firebaseListener = null;
+        
         function startPolling() {
             if (pollingInterval) clearInterval(pollingInterval);
+            if (firebaseListener && useFirebase) {
+                window.db.ref(`rooms/${gameState.roomCode}`).off('value', firebaseListener);
+            }
             
+            // Firebase real-time listener
+            if (useFirebase && window.db) {
+                firebaseListener = window.db.ref(`rooms/${gameState.roomCode}`).on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    if (!data) return;
+
+                    const myPlayer = gameState.currentPlayer;
+                    gameState.players = data.players;
+                    gameState.phase = data.phase;
+                    gameState.timerStartTime = data.timerStartTime;
+                    gameState.messages = data.messages || [];
+                    gameState.votingResults = data.votingResults || {};
+                    gameState.finalStory = data.finalStory;
+                    
+                    const updated = gameState.players.find(p => p.id === myPlayer?.id);
+                    if (updated) gameState.currentPlayer = updated;
+
+                    if (data.gameStarted && !gameState.gameStarted) {
+                        gameState.gameStarted = true;
+                        showGameScreen();
+                        startTimerUpdate();
+                    }
+
+                    if (gameState.gameStarted) {
+                        if (gameState.phase === 'end') {
+                            endGame();
+                        } else {
+                            updateGameScreen();
+                            updateChat();
+                        }
+                    } else {
+                        updateLobby();
+                    }
+                });
+                return;
+            }
+            
+            // Fallback: polling для localStorage
             pollingInterval = setInterval(async () => {
                 const data = await loadRoomData(gameState.roomCode);
                 if (!data) return;
